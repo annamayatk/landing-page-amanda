@@ -142,8 +142,8 @@ h6,
 }
 
 .amanda-photo-wrapper {
-  width: 72px;
-  height: 72px;
+  width: 160px;
+  height: 160px;
   border-radius: 999px;
   border: 2px solid var(--color-logo-gray);
   background: var(--color-surface);
@@ -705,6 +705,11 @@ h6,
 @media (max-width: 640px) {
   .header {
     padding-inline: 1.25rem;
+  }
+
+  .amanda-photo-wrapper {
+    width: 128px;
+    height: 128px;
   }
 
   .hero {
