@@ -57,7 +57,10 @@ function App() {
                 </p>
               </div>
             </div>
-            <p className="hero-tag">Consultoria personalizada</p>
+            <div className="hero-tags">
+              <p className="hero-tag">Consultoria personalizada</p>
+              <p className="hero-tag">Atendimento presencial</p>
+            </div>
             <h1>
               Treino e nutrição pensados
               <span> para a sua rotina.</span>
@@ -99,23 +102,41 @@ function App() {
             </div>
           </div>
 
-          <div className="hero-card">
-            <div className="hero-badge">Vagas limitadas</div>
-            <h2>Consultoria Personalizada</h2>
-            <p>
-              Escolha o plano que melhor se encaixa na sua rotina e comece a
-              treinar com estratégia e segurança.
-            </p>
-            <ul>
-              <li>Treinos montados pela Amanda, pensando em você.</li>
-              <li>Ajustes periódicos conforme sua evolução.</li>
-              <li>
-                No Plano Premium, dieta prescrita pelo nutricionista parceiro.
-              </li>
-            </ul>
-            <a href="#planos" className="btn btn-primary btn-full">
-              Ver planos e valores
-            </a>
+          <div className="hero-cards">
+            <div className="hero-card">
+              <div className="hero-badge">Vagas limitadas</div>
+              <h2>Consultoria Personalizada</h2>
+              <p>
+                Escolha o plano que melhor se encaixa na sua rotina e comece a
+                treinar com estratégia e segurança.
+              </p>
+              <ul>
+                <li>Treinos montados pela Amanda, pensando em você.</li>
+                <li>Ajustes periódicos conforme sua evolução.</li>
+                <li>
+                  No Plano Premium, dieta prescrita pelo nutricionista parceiro.
+                </li>
+              </ul>
+              <a href="#planos" className="btn btn-primary btn-full">
+                Ver planos e valores
+              </a>
+            </div>
+
+            <div className="hero-card">
+              <div className="hero-badge">Atendimento presencial</div>
+              <h2>Treino com orientação individual</h2>
+              <p>
+                Acompanhamento presencial com orientação individual durante toda
+                a execução dos exercícios.
+              </p>
+              <ul>
+                <li>Somente em ITAIPAVA (Petrópolis - RJ).</li>
+                <li>Treino adaptado ao seu objetivo e evolução.</li>
+              </ul>
+              <a href="#planos-personal" className="btn btn-primary btn-full">
+                Ver planos e valores
+              </a>
+            </div>
           </div>
         </section>
 
@@ -147,18 +168,18 @@ function App() {
               <div className="plan-prices">
                 <div>
                   <span className="price-label">Mensal</span>
-                  <span className="price-value">R$ 120</span>
+                  <span className="price-value">R$ 200,00</span>
                   <span className="price-detail">somente treino</span>
                 </div>
                 <div>
                   <span className="price-label">Trimestral</span>
-                  <span className="price-value">R$ 330</span>
-                  <span className="price-detail">R$ 110/mês</span>
+                  <span className="price-value">R$ 570,00</span>
+                  <span className="price-detail">R$ 190/mês</span>
                 </div>
                 <div>
                   <span className="price-label">Semestral</span>
-                  <span className="price-value">R$ 600</span>
-                  <span className="price-detail">R$ 100/mês</span>
+                  <span className="price-value">R$ 1080,00</span>
+                  <span className="price-detail">R$ 180/mês</span>
                 </div>
               </div>
 
@@ -191,18 +212,18 @@ function App() {
               <div className="plan-prices">
                 <div>
                   <span className="price-label">Mensal</span>
-                  <span className="price-value">R$ 250</span>
+                  <span className="price-value">R$ 300,00</span>
                   <span className="price-detail">treino + dieta</span>
                 </div>
                 <div>
                   <span className="price-label">Trimestral</span>
-                  <span className="price-value">R$ 720</span>
-                  <span className="price-detail">R$ 240/mês</span>
+                  <span className="price-value">R$ 840,00</span>
+                  <span className="price-detail">R$ 280/mês</span>
                 </div>
                 <div>
                   <span className="price-label">Semestral</span>
-                  <span className="price-value">R$ 1.380</span>
-                  <span className="price-detail">R$ 230/mês</span>
+                  <span className="price-value">R$ 1620,00</span>
+                  <span className="price-detail">R$ 270/mês</span>
                 </div>
               </div>
 
@@ -213,6 +234,103 @@ function App() {
                 rel="noreferrer"
               >
                 Quero o Plano Premium
+              </a>
+            </article>
+          </div>
+
+          <div className="section-header" id="planos-personal">
+            <h2>Planos de personal</h2>
+            <p>
+              Treinamento com acompanhamento presencial, com orientação
+              individual durante toda a execução dos exercícios.
+            </p>
+          </div>
+
+          <div className="plans-grid">
+            <article className="plan-card">
+              <h3>Atendimento Presencial - Individual</h3>
+              <p className="plan-tagline">
+                Somente em ITAIPAVA (Petrópolis - RJ).
+              </p>
+
+              <div className="plan-prices">
+                <div>
+                  <span className="price-label">Aula avulsa</span>
+                  <span className="price-value">R$ 100,00</span>
+                </div>
+                <div>
+                  <span className="price-label">1x por semana</span>
+                  <span className="price-value">R$ 320,00</span>
+                </div>
+                <div>
+                  <span className="price-label">2x por semana</span>
+                  <span className="price-value">R$ 640,00</span>
+                </div>
+                <div>
+                  <span className="price-label">3x por semana</span>
+                  <span className="price-value">R$ 960,00</span>
+                </div>
+                <div>
+                  <span className="price-label">4x por semana</span>
+                  <span className="price-value">R$ 1280,00</span>
+                </div>
+                <div>
+                  <span className="price-label">5x por semana</span>
+                  <span className="price-value">R$ 1600,00</span>
+                </div>
+              </div>
+
+              <a
+                href="https://wa.me/553284695345?text=Quero%20atendimento%20presencial%20Individual"
+                className="btn btn-outline btn-full"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Quero Atendimento Presencial (Individual)
+              </a>
+            </article>
+
+            <article className="plan-card plan-card-featured">
+              <div className="plan-badge">Melhor preço</div>
+              <h3>Atendimento Presencial - Dupla</h3>
+              <p className="plan-tagline">
+                Somente em ITAIPAVA (Petrópolis - RJ).
+              </p>
+
+              <div className="plan-prices">
+                <div>
+                  <span className="price-label">Aula avulsa</span>
+                  <span className="price-value">R$ 150,00</span>
+                </div>
+                <div>
+                  <span className="price-label">1x por semana</span>
+                  <span className="price-value">R$ 480,00</span>
+                </div>
+                <div>
+                  <span className="price-label">2x por semana</span>
+                  <span className="price-value">R$ 960,00</span>
+                </div>
+                <div>
+                  <span className="price-label">3x por semana</span>
+                  <span className="price-value">R$ 1440,00</span>
+                </div>
+                <div>
+                  <span className="price-label">4x por semana</span>
+                  <span className="price-value">R$ 1920,00</span>
+                </div>
+                <div>
+                  <span className="price-label">5x por semana</span>
+                  <span className="price-value">R$ 2400,00</span>
+                </div>
+              </div>
+
+              <a
+                href="https://wa.me/553284695345?text=Quero%20atendimento%20presencial%20Dupla"
+                className="btn btn-primary btn-full"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Quero Atendimento Presencial (Dupla)
               </a>
             </article>
           </div>
@@ -349,8 +467,8 @@ function App() {
 
       <footer className="footer">
         <p>
-          Personal: <strong>Amanda Atkinson</strong> · Nutricionista parceiro:{' '}
-          <strong>João Vitor Torres</strong>
+          Personal: <strong>Amanda Atkinson</strong>  CREF: 065517-G/RJ  · Nutricionista parceiro:{' '}
+          <strong>João Vitor Torres</strong>  CRN4: 19100411 
         </p>
         <p className="footer-small">
           <span className="footer-ig-icon" aria-hidden="true" />

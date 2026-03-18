@@ -195,6 +195,13 @@ h6,
   border: 1px solid rgba(148, 163, 184, 0.7);
 }
 
+.hero-tags {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .hero h1 {
   font-size: clamp(2.2rem, 3.1vw, 3.1rem);
   line-height: 1.1;
@@ -256,6 +263,13 @@ h6,
   padding: 1.8rem 1.6rem;
   border: 1px solid rgba(148, 163, 184, 0.4);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.hero-cards {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
 .hero-badge {
@@ -368,6 +382,11 @@ h6,
   text-align: left;
   max-width: 42rem;
   margin-bottom: 2.5rem;
+}
+
+.plans-grid + .section-header {
+  /* cria respiro entre os blocos de "consultoria" e "personal" na mesma section */
+  margin-top: 2.5rem;
 }
 
 .section-header h2 {
@@ -629,6 +648,19 @@ h6,
   color: #6b7280;
 }
 
+.footer-small a {
+  color: #7c3aed; /* roxo */
+  text-decoration: none;
+}
+
+.footer-small a:visited {
+  color: #7c3aed; /* mantém roxo após visitar */
+}
+
+.footer-small a:hover {
+  text-decoration: underline;
+}
+
 .footer-ig-icon {
   display: inline-block;
   width: 14px;
@@ -670,10 +702,6 @@ h6,
   .hero {
     grid-template-columns: minmax(0, 1fr);
     padding-top: 4rem;
-  }
-
-  .hero-card {
-    order: -1;
   }
 
   .plans-grid {
