@@ -4,7 +4,7 @@ Site em React + Vite, deploy na **Vercel**.
 
 ## Ficha de anamnese (consultoria)
 
-- **URL (partilhar só com alunos):** `https://<teu-dominio>/consultoria/ficha-inicial` — não há link no menu.
+- **URL (partilhar só com alunos):** `https://<teu-dominio>/ficha-inicial` — não há link no menu. (`/consultoria/ficha-inicial` redireciona para aqui.)
 - **API:** `api/anamnese.ts` envia o e-mail via **Resend**.
 - Na Vercel, define as variáveis (ver `.env.example`): `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `ANAMNESE_TO_EMAIL`.
 - **`ANAMNESE_TO_EMAIL`** é só o destino das fichas (pode ser o e-mail da Amanda; a conta/API Resend pode ser a tua). Vários e-mails: separa por vírgula.

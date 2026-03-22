@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ScrollToHash } from './components/ScrollToHash'
 import { Consultoria } from './pages/Consultoria'
 import { Home } from './pages/Home'
@@ -14,7 +14,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/consultoria" element={<Consultoria />} />
         <Route path="/atendimento-presencial" element={<Presencial />} />
-        <Route path="/consultoria/ficha-inicial" element={<FichaInicial />} />
+        <Route path="/ficha-inicial" element={<FichaInicial />} />
+        <Route
+          path="/consultoria/ficha-inicial"
+          element={<Navigate to="/ficha-inicial" replace />}
+        />
       </Routes>
     </BrowserRouter>
   )
