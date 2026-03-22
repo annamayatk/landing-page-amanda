@@ -50,9 +50,18 @@ h6,
   gap: 0.75rem;
 }
 
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .logo-mark {
   width: 44px;
   height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  flex-shrink: 0;
+  aspect-ratio: 1;
   border-radius: 999px;
   display: flex;
   align-items: center;
@@ -67,6 +76,7 @@ h6,
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .logo-text {
@@ -119,6 +129,141 @@ h6,
   font-size: 0.85rem;
 }
 
+/* Menu mobile: hambúrguer + gaveta à esquerda */
+.header-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  border-radius: 0.65rem;
+  background: rgba(15, 23, 42, 0.65);
+  color: #e5e7eb;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease;
+}
+
+.header-menu-toggle:hover {
+  border-color: rgba(249, 250, 251, 0.45);
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.header-menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 1.15rem;
+}
+
+.header-menu-icon span {
+  display: block;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.nav-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(2, 6, 23, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.nav-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 201;
+  width: min(17.5rem, 86vw);
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at top left, rgba(31, 41, 55, 0.98), rgba(15, 23, 42, 1));
+  border-right: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 12px 0 40px rgba(0, 0, 0, 0.55);
+  animation: navDrawerIn 0.22s ease-out;
+}
+
+@keyframes navDrawerIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.nav-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1rem 0.85rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.nav-drawer-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+}
+
+.nav-drawer-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.nav-drawer-close:hover {
+  background: rgba(31, 41, 55, 0.95);
+}
+
+.nav-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.75rem 1.25rem;
+  gap: 0.2rem;
+}
+
+.nav-drawer-link {
+  padding: 0.8rem 1rem;
+  border-radius: 0.75rem;
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background-color 120ms ease;
+}
+
+.nav-drawer-link:hover {
+  background: rgba(148, 163, 184, 0.12);
+}
+
+.nav-drawer-link--cta {
+  margin-top: 0.65rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  text-align: center;
+  font-weight: 500;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
@@ -134,16 +279,35 @@ h6,
   gap: 1.5rem;
 }
 
+.hero-team-intro {
+  margin-bottom: 0.25rem;
+  width: 100%;
+}
+
+/*
+  Flex em vez de grid na mesma coluna: no grid, a largura da coluna 1 era o MÁXIMO
+  entre a foto da Amanda e a linha do João (foto+texto), empurrando o texto da Amanda.
+*/
 .amanda-intro {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+  max-width: 100%;
+}
+
+.amanda-intro-top {
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.25rem;
+  gap: 0.65rem;
+  min-width: 0;
 }
 
 .amanda-photo-wrapper {
   width: 160px;
   height: 160px;
+  flex-shrink: 0;
   border-radius: 999px;
   border: 2px solid var(--color-logo-gray);
   background: var(--color-surface);
@@ -151,15 +315,78 @@ h6,
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
 }
 
+.amanda-intro-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.partner-intro {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-left: 1rem;
+  /* Espaço extra entre as tags e o bloco do João (além do gap do .amanda-intro) */
+  margin-top: 1.1rem;
+  opacity: 0.88;
+  transition: opacity 160ms ease-out;
+}
+
+.partner-intro:hover {
+  opacity: 1;
+}
+
+.partner-photo-wrapper {
+  width: 104px;
+  height: 104px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: var(--color-surface);
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
+  flex-shrink: 0;
+}
+
+.partner-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+}
+
+.partner-intro-text {
+  display: flex;
+  flex-direction: column;
+  max-width: 11rem;
+}
+
+.partner-intro-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+}
+
+.partner-intro-name {
+  margin: 0.12rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.partner-intro-name span:not(.intro-registry) {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
 .amanda-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.amanda-intro-text {
-  display: flex;
-  flex-direction: column;
 }
 
 .amanda-intro-label {
@@ -176,10 +403,20 @@ h6,
   color: var(--color-text-main);
 }
 
-.amanda-intro-name span {
+.amanda-intro-name span:not(.intro-registry) {
   display: block;
+  margin-top: 0.3rem;
   font-size: 0.8rem;
   color: var(--color-text-muted);
+}
+
+.intro-registry {
+  display: block;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  margin-top: 0.3rem;
+  letter-spacing: 0.02em;
+  font-weight: 400;
 }
 
 .hero-tag {
@@ -195,11 +432,27 @@ h6,
   border: 1px solid rgba(148, 163, 184, 0.7);
 }
 
+a.hero-tag-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a.hero-tag-link:hover {
+  border-color: rgba(249, 250, 251, 0.85);
+  background: rgba(31, 41, 55, 0.95);
+}
+
 .hero-tags {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   flex-wrap: wrap;
+}
+
+/* Tags logo abaixo da linha foto + texto da Amanda, antes do João */
+.hero-tags--after-amanda {
+  width: 100%;
 }
 
 .hero h1 {
@@ -538,7 +791,7 @@ h6,
 
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.4rem;
 }
 
@@ -681,6 +934,72 @@ h6,
   border: 1px solid rgba(15, 23, 42, 0.9);
 }
 
+/* Modal — escolha de planos (home) */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.modal-dialog {
+  position: relative;
+  width: min(100%, 26rem);
+  padding: 1.75rem 1.5rem 1.5rem;
+  border-radius: 1.35rem;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: radial-gradient(circle at top, rgba(31, 41, 55, 0.98), rgba(15, 23, 42, 1));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 120ms ease-out;
+}
+
+.modal-close:hover {
+  background: rgba(31, 41, 55, 0.95);
+}
+
+.modal-title {
+  margin: 0 2rem 0.5rem 0;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: #f9fafb;
+}
+
+.modal-subtitle {
+  margin: 0 0 1.25rem;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
 @keyframes shimmer {
   0% {
     background-position: 0% 50%;
@@ -692,7 +1011,22 @@ h6,
 
 @media (max-width: 960px) {
   .header {
-    gap: 1rem;
+    gap: 0.75rem;
+    justify-content: flex-start;
+  }
+
+  .header-menu-toggle {
+    display: inline-flex;
+  }
+
+  .header-logo {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header-cta {
+    margin-left: auto;
+    flex-shrink: 0;
   }
 
   .nav {
@@ -738,6 +1072,11 @@ h6,
   .amanda-photo-wrapper {
     width: 128px;
     height: 128px;
+  }
+
+  .partner-photo-wrapper {
+    width: 88px;
+    height: 88px;
   }
 
   .hero {
