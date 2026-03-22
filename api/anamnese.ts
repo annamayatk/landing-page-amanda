@@ -149,8 +149,8 @@ export default async function handler(req: {
     return res.status(200).json({ ok: true })
   }
 
-  /** Obrigatórios: todos os campos do formulário exceto `profissao` — alinhado com `anamneseForm.ts`. */
-  const OPCIONAL = new Set(['profissao'])
+  /** Obrigatórios: todos os campos exceto estes — alinhado com `anamneseForm.ts`. */
+  const OPCIONAL = new Set(['profissao', 'tempoSemTreinar'])
   for (const section of SECTIONS) {
     for (const { key, label } of section.keys) {
       if (OPCIONAL.has(key)) continue
@@ -160,15 +160,26 @@ export default async function handler(req: {
     }
   }
 
+  const diasSemana = String(body.diasPorSemana ?? '').trim()
+  if (!/^[1-7]$/.test(diasSemana)) {
+    return res.status(400).json({
+      error: 'Dias por semana deve ser um valor entre 1 e 7.',
+    })
+  }
+
   const emailVal = (body.email ?? '').trim()
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
     return res.status(400).json({ error: 'E-mail inválido. Use um formato como nome@email.com.' })
   }
 
   const alturaVal = (body.altura ?? '').trim()
-  if (!/^[12],\d{2}$/.test(alturaVal)) {
+  const alturaCm = (() => {
+    if (!/^[12],\d{2}$/.test(alturaVal)) return null
+    return parseInt(alturaVal[0], 10) * 100 + parseInt(alturaVal.slice(2), 10)
+  })()
+  if (alturaCm === null || alturaCm < 100 || alturaCm > 290) {
     return res.status(400).json({
-      error: 'Altura inválida ou incompleta. Use três números (formato final tipo 1,75 m).',
+      error: 'Altura inválida. Use três números entre 1,00 m e 2,90 m (ex.: 1,75).',
     })
   }
 

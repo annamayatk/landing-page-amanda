@@ -22,10 +22,7 @@ function formatDateBRMask(raw: string): string {
   return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
 }
 
-/**
- * Altura em metros (máx. 2,00 m): só dígitos, 1–3.
- * Com um só algarismo não coloca vírgula (nada “pré-digitado”); a partir do 2.º dígito formata 1,7 → 1,75.
- */
+/** Altura em metros (máx. 2,90 m): só dígitos, 1–3. */
 function formatAlturaMetrosMask(raw: string): string {
   let digits = raw.replace(/\D/g, '').slice(0, 3)
   while (digits.length > 0 && digits[0] !== '1' && digits[0] !== '2') {
@@ -37,8 +34,8 @@ function formatAlturaMetrosMask(raw: string): string {
   const bc = digits.slice(1)
   if (bc.length === 1) return `${a},${bc}`
   const heightCm = parseInt(a, 10) * 100 + parseInt(bc, 10)
-  if (heightCm > 200) {
-    return '2,00'
+  if (heightCm > 290) {
+    return '2,90'
   }
   return `${a},${bc}`
 }
@@ -199,14 +196,14 @@ export function FichaInicial() {
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    document.title = 'Ficha inicial — Consultoria | Amanda Atkinson'
+    document.title = 'Consultoria Esportiva: Amanda Atkinson - Anamnese'
     const meta = document.createElement('meta')
     meta.name = 'robots'
     meta.content = 'noindex, nofollow'
     document.head.appendChild(meta)
     return () => {
       document.head.removeChild(meta)
-      document.title = 'Consultoria Esportiva Amanda Atkinson'
+      document.title = 'Consultoria Esportiva: Amanda Atkinson'
     }
   }, [])
 

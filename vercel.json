@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/ficha-inicial",
+      "destination": "/ficha-inicial.html"
+    },
+    {
+      "source": "/ficha-inicial/",
+      "destination": "/ficha-inicial.html"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }

@@ -87,7 +87,6 @@ export const ANAMNESE_SECTIONS: AnamneseSection[] = [
         name: 'tempoSemTreinar',
         label: 'Há quanto tempo está sem treinar (se estiver parado)?',
         type: 'text',
-        required: true,
       },
     ],
   },
@@ -122,8 +121,18 @@ export const ANAMNESE_SECTIONS: AnamneseSection[] = [
       {
         name: 'diasPorSemana',
         label: 'Quantos dias por semana pretende treinar?',
-        type: 'text',
+        type: 'select',
         required: true,
+        options: [
+          { value: '', label: 'Selecione…' },
+          { value: '1', label: '1 dia' },
+          { value: '2', label: '2 dias' },
+          { value: '3', label: '3 dias' },
+          { value: '4', label: '4 dias' },
+          { value: '5', label: '5 dias' },
+          { value: '6', label: '6 dias' },
+          { value: '7', label: '7 dias' },
+        ],
       },
       {
         name: 'tempoPorTreino',
@@ -252,9 +261,17 @@ export function buildInitialAnamneseValues(): Record<string, string> {
   return o
 }
 
-/** Altura com máscara: precisa estar completa (ex.: 1,75), máx. 2,00 m. */
+/** Centímetros totais a partir do formato X,XX (1,00 m a 2,90 m). */
+export function parseAlturaMetrosCm(value: string): number | null {
+  const t = value.trim()
+  if (!/^[12],\d{2}$/.test(t)) return null
+  return parseInt(t[0], 10) * 100 + parseInt(t.slice(2), 10)
+}
+
+/** Altura com máscara completa entre 1,00 m e 2,90 m. */
 export function isAlturaMetrosCompleta(value: string): boolean {
-  return /^[12],\d{2}$/.test(value.trim())
+  const cm = parseAlturaMetrosCm(value)
+  return cm !== null && cm >= 100 && cm <= 290
 }
 
 /** Telefone BR: 10 dígitos (fixo) ou 11 (celular com 9 após DDD). */
@@ -270,7 +287,7 @@ export function isEmailFormatValid(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t)
 }
 
-/** Valida todos os campos com `required: true` (dados pessoais exceto profissão; resto obrigatório). */
+/** Valida todos os campos com `required: true` (exc.: profissão, tempo sem treinar). */
 export function validateRequiredAnamnese(values: Record<string, string>): string | null {
   for (const section of ANAMNESE_SECTIONS) {
     for (const field of section.fields) {
@@ -283,10 +300,13 @@ export function validateRequiredAnamnese(values: Record<string, string>): string
         return 'Digite um e-mail válido (ex.: nome@email.com).'
       }
       if (field.mask === 'alturaMetros' && !isAlturaMetrosCompleta(v)) {
-        return 'Preencha a altura com três números (formato final tipo 1,75 m).'
+        return 'Altura entre 1,00 m e 2,90 m (três números, ex.: 175 → 1,75 m).'
       }
       if (field.mask === 'telefoneBR' && !isTelefoneBRCompleto(v)) {
         return 'Preencha o telefone com DDD: 10 números (fixo) ou 11 (celular).'
+      }
+      if (field.name === 'diasPorSemana' && !/^[1-7]$/.test(v)) {
+        return 'Selecione quantos dias por semana (entre 1 e 7).'
       }
     }
   }
