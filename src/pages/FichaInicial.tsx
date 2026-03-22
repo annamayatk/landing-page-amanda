@@ -4,6 +4,7 @@ import { Header } from '../components/Header'
 import {
   ANAMNESE_SECTIONS,
   buildInitialAnamneseValues,
+  validateRequiredAnamnese,
   type AnamneseField,
 } from '../data/anamneseForm'
 
@@ -11,6 +12,66 @@ function getSubmitUrl(): string {
   const full = import.meta.env.VITE_ANAMNESE_API_URL?.trim()
   if (full) return full
   return '/api/anamnese'
+}
+
+/** Só dígitos, no máx. 8 (DDMMYYYY) → insere barras (ex.: 07051998 → 07/05/1998) */
+function formatDateBRMask(raw: string): string {
+  const digits = raw.replace(/\D/g, '').slice(0, 8)
+  if (digits.length <= 2) return digits
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
+}
+
+/**
+ * Altura em metros (máx. 2,00 m): só dígitos, 1–3.
+ * Com um só algarismo não coloca vírgula (nada “pré-digitado”); a partir do 2.º dígito formata 1,7 → 1,75.
+ */
+function formatAlturaMetrosMask(raw: string): string {
+  let digits = raw.replace(/\D/g, '').slice(0, 3)
+  while (digits.length > 0 && digits[0] !== '1' && digits[0] !== '2') {
+    digits = digits.slice(1)
+  }
+  if (digits.length === 0) return ''
+  const a = digits[0]
+  if (digits.length === 1) return a
+  const bc = digits.slice(1)
+  if (bc.length === 1) return `${a},${bc}`
+  const heightCm = parseInt(a, 10) * 100 + parseInt(bc, 10)
+  if (heightCm > 200) {
+    return '2,00'
+  }
+  return `${a},${bc}`
+}
+
+/** Só dígitos; limite 10 (fixo) ou 11 (celular com 9 após DDD). Estado guarda sempre isto. */
+function normalizeTelefoneDigits(raw: string): string {
+  const d = raw.replace(/\D/g, '')
+  if (d.length <= 2) return d
+  const isMobile = d[2] === '9'
+  return d.slice(0, isMobile ? 11 : 10)
+}
+
+/**
+ * Exibição a partir de dígitos só (estado). Sem espaço após (XX) com só DDD — evita backspace preso.
+ * (XX) XXXX-XXXX — 10 dígitos | (XX) XXXXX-XXXX — 11 dígitos
+ */
+function formatTelefoneDisplay(digitsOnly: string): string {
+  const digits = digitsOnly.replace(/\D/g, '')
+  if (digits.length === 0) return ''
+  if (digits.length === 1) return `(${digits}`
+  if (digits.length === 2) return `(${digits})`
+  const isMobile = digits[2] === '9'
+  const d = digits.slice(0, isMobile ? 11 : 10)
+  const ddd = d.slice(0, 2)
+  const local = d.slice(2)
+  if (isMobile) {
+    const loc = local.slice(0, 9)
+    if (loc.length <= 5) return `(${ddd}) ${loc}`
+    return `(${ddd}) ${loc.slice(0, 5)}-${loc.slice(5)}`
+  }
+  const loc = local.slice(0, 8)
+  if (loc.length <= 4) return `(${ddd}) ${loc}`
+  return `(${ddd}) ${loc.slice(0, 4)}-${loc.slice(4)}`
 }
 
 function FieldInput({
@@ -56,12 +117,77 @@ function FieldInput({
     )
   }
 
+  if (field.mask === 'dateDDMMYYYY') {
+    return (
+      <input
+        id={id}
+        name={field.name}
+        type="text"
+        inputMode="numeric"
+        autoComplete="off"
+        maxLength={10}
+        placeholder={field.placeholder}
+        className="anamnese-input"
+        aria-required={field.required ?? false}
+        value={value}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(formatDateBRMask(e.target.value))}
+      />
+    )
+  }
+
+  if (field.mask === 'alturaMetros') {
+    return (
+      <input
+        id={id}
+        name={field.name}
+        type="text"
+        inputMode="decimal"
+        autoComplete="off"
+        maxLength={5}
+        placeholder={field.placeholder}
+        className="anamnese-input"
+        aria-required={field.required ?? false}
+        value={value}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(formatAlturaMetrosMask(e.target.value))}
+      />
+    )
+  }
+
+  if (field.mask === 'telefoneBR') {
+    const digits = value.replace(/\D/g, '')
+    return (
+      <input
+        id={id}
+        name={field.name}
+        type="text"
+        inputMode="tel"
+        autoComplete="tel"
+        placeholder={field.placeholder}
+        className="anamnese-input"
+        aria-required={field.required ?? false}
+        value={formatTelefoneDisplay(value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          const next = normalizeTelefoneDigits(e.target.value)
+          const prev = digits
+          const extracted = e.target.value.replace(/\D/g, '')
+          // Apagou só símbolo (mesmo n.º de dígitos) → remove um dígito para o backspace funcionar
+          if (extracted.length === prev.length && e.target.value.length < formatTelefoneDisplay(prev).length) {
+            onChange(prev.slice(0, -1))
+            return
+          }
+          onChange(next)
+        }}
+      />
+    )
+  }
+
   return (
     <input
       {...common}
-      type="text"
+      type={field.name === 'email' ? 'email' : 'text'}
+      inputMode={field.name === 'email' ? 'email' : undefined}
       placeholder={field.placeholder}
-      autoComplete={field.name === 'email' ? 'email' : field.name === 'telefone' ? 'tel' : 'off'}
+      autoComplete={field.name === 'email' ? 'email' : 'off'}
     />
   )
 }
@@ -92,8 +218,9 @@ export function FichaInicial() {
     e.preventDefault()
     setErrorMessage('')
 
-    if (!values.nomeCompleto?.trim() || !values.email?.trim()) {
-      setErrorMessage('Preencha pelo menos nome completo e e-mail.')
+    const missing = validateRequiredAnamnese(values)
+    if (missing) {
+      setErrorMessage(missing)
       setStatus('error')
       return
     }

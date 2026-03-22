@@ -20,7 +20,7 @@ const SECTIONS: { title: string; keys: { key: string; label: string }[] }[] = [
     keys: [
       { key: 'nomeCompleto', label: 'Nome completo' },
       { key: 'dataNascimento', label: 'Data de nascimento' },
-      { key: 'altura', label: 'Altura' },
+      { key: 'altura', label: 'Altura (metros)' },
       { key: 'pesoAtual', label: 'Peso atual (preferencialmente em jejum)' },
       { key: 'email', label: 'E-mail' },
       { key: 'telefone', label: 'Telefone / WhatsApp' },
@@ -149,12 +149,38 @@ export default async function handler(req: {
     return res.status(200).json({ ok: true })
   }
 
+  /** Obrigatórios: todos os campos do formulário exceto `profissao` — alinhado com `anamneseForm.ts`. */
+  const OPCIONAL = new Set(['profissao'])
+  for (const section of SECTIONS) {
+    for (const { key, label } of section.keys) {
+      if (OPCIONAL.has(key)) continue
+      if (!(body[key] ?? '').trim()) {
+        return res.status(400).json({ error: `Campo obrigatório: ${label}` })
+      }
+    }
+  }
+
+  const emailVal = (body.email ?? '').trim()
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+    return res.status(400).json({ error: 'E-mail inválido. Use um formato como nome@email.com.' })
+  }
+
+  const alturaVal = (body.altura ?? '').trim()
+  if (!/^[12],\d{2}$/.test(alturaVal)) {
+    return res.status(400).json({
+      error: 'Altura inválida ou incompleta. Use três números (formato final tipo 1,75 m).',
+    })
+  }
+
+  const telDigits = String(body.telefone ?? '').replace(/\D/g, '')
+  if (telDigits.length !== 10 && telDigits.length !== 11) {
+    return res.status(400).json({
+      error: 'Telefone inválido: use DDD + número (10 dígitos fixo ou 11 celular).',
+    })
+  }
+
   const nome = (body.nomeCompleto ?? '').trim()
   const emailAluno = (body.email ?? '').trim()
-
-  if (!nome || !emailAluno) {
-    return res.status(400).json({ error: 'Nome completo e e-mail são obrigatórios.' })
-  }
 
   const resend = new Resend(apiKey)
   const html = buildHtmlEmail(body)
