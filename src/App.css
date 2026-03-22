@@ -1099,3 +1099,165 @@ a.hero-tag-link:hover {
     padding-inline: 1.3rem;
   }
 }
+
+/* Ficha de anamnese (rota não listada no menu) */
+.anamnese-main {
+  padding-bottom: 3rem;
+}
+
+.anamnese-section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-inline: 5vw;
+}
+
+.anamnese-header {
+  text-align: left;
+}
+
+.anamnese-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a78bfa;
+}
+
+.anamnese-intro {
+  max-width: 52ch;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+.anamnese-privacy-note {
+  margin: 0 0 1.5rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--color-border-soft);
+  border-radius: 10px;
+}
+
+.anamnese-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.anamnese-fieldset {
+  margin: 1.25rem 0 0;
+  padding: 1.25rem 1.1rem 1.35rem;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.35);
+}
+
+.anamnese-legend {
+  padding: 0 0.35rem;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.anamnese-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.85rem;
+}
+
+.anamnese-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.anamnese-label {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  line-height: 1.35;
+}
+
+.anamnese-req {
+  color: #f87171;
+}
+
+.anamnese-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--color-text-main);
+  background: rgba(2, 6, 23, 0.85);
+  border: 1px solid var(--color-border-soft);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.anamnese-input:focus {
+  border-color: rgba(167, 139, 250, 0.65);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+.anamnese-input::placeholder {
+  color: #64748b;
+}
+
+textarea.anamnese-input {
+  resize: vertical;
+  min-height: 5rem;
+}
+
+.anamnese-select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.anamnese-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.anamnese-actions {
+  margin-top: 1.75rem;
+}
+
+.anamnese-feedback {
+  margin: 1rem 0 0;
+  padding: 1rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.anamnese-feedback--ok {
+  background: rgba(22, 163, 74, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  color: #bbf7d0;
+}
+
+.anamnese-feedback--ok h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+}
+
+.anamnese-feedback--ok p {
+  margin: 0;
+  color: #d1fae5;
+}
+
+.anamnese-feedback--err {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  color: #fecaca;
+}

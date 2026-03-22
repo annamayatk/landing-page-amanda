@@ -1,3 +1,17 @@
+# Landing — Amanda Atkinson
+
+Site em React + Vite, deploy na **Vercel**.
+
+## Ficha de anamnese (consultoria)
+
+- **URL (partilhar só com alunos):** `https://<teu-dominio>/consultoria/ficha-inicial` — não há link no menu.
+- **API:** `api/anamnese.ts` envia o e-mail via **Resend**.
+- Na Vercel, define as variáveis (ver `.env.example`): `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `ANAMNESE_TO_EMAIL`.
+- **`ANAMNESE_TO_EMAIL`** é só o destino das fichas (pode ser o e-mail da Amanda; a conta/API Resend pode ser a tua). Vários e-mails: separa por vírgula.
+- Testar **antes do deploy**: cria `.env.local` com as mesmas variáveis da Vercel e corre `npm run dev:vercel` (ou `npx vercel dev`). O `npm run dev` sozinho **não** serve a pasta `api/`.
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
