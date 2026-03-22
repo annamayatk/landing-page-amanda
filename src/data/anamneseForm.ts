@@ -35,7 +35,6 @@ export const ANAMNESE_SECTIONS: AnamneseSection[] = [
         name: 'altura',
         label: 'Altura (metros)',
         type: 'text',
-        placeholder: 'Só números; a vírgula aparece ao digitar o restante',
         mask: 'alturaMetros',
         required: true,
       },
