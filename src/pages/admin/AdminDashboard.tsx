@@ -227,7 +227,7 @@ export function AdminDashboard() {
   async function promoteSubmission(submissionId: string) {
     setError(null)
     setMsg(null)
-    const r = await fetch('/api/students-from-submission', {
+    const r = await fetch('/api/anamnese-submissions', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
