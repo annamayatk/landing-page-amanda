@@ -1,4 +1,10 @@
 {
+  "crons": [
+    {
+      "path": "/api/cron/payment-reminders",
+      "schedule": "0 12 * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/ficha-inicial",
@@ -9,7 +15,7 @@
       "destination": "/ficha-inicial.html"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/((?!api/|src/|node_modules/|assets/|@).*)",
       "destination": "/index.html"
     }
   ]

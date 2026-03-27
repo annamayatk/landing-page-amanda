@@ -1,5 +1,8 @@
 import { Resend } from 'resend'
 
+import { getDb } from '../src/db/index.js'
+import { anamneseSubmissions } from '../src/db/schema.js'
+
 type Body = Record<string, string | undefined>
 
 function escapeHtml(s: string): string {
@@ -211,6 +214,17 @@ export default async function handler(req: {
     return res.status(502).json({
       error: 'Não foi possível enviar o e-mail. Tente novamente ou fale com a Amanda pelo WhatsApp.',
     })
+  }
+
+  if (process.env.DATABASE_URL?.trim()) {
+    try {
+      const db = getDb()
+      const payload: Record<string, unknown> = { ...body }
+      delete payload._honeypot
+      await db.insert(anamneseSubmissions).values({ payload })
+    } catch (e) {
+      console.error('anamnese: falha ao gravar no banco:', e)
+    }
   }
 
   return res.status(200).json({ ok: true })
