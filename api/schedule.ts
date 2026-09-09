@@ -2,6 +2,7 @@ import { and, asc, eq } from 'drizzle-orm'
 import type { IncomingMessage } from 'node:http'
 
 import { requireAdmin } from './lib/auth.js'
+import { serverErrorMessage } from './lib/errors.js'
 import { getQueryId, readJsonBody } from './lib/http.js'
 import { getPathname } from './lib/pathname.js'
 import { getDb } from '../src/db/index.js'
@@ -229,6 +230,16 @@ async function handleNoShows(req: Req, res: Res, db: ReturnType<typeof getDb>) {
 }
 
 export default async function handler(req: Req, res: Res) {
+  try {
+    return await handleSchedule(req, res)
+  } catch (e) {
+    console.error('[schedule]', e)
+    res.status(500)
+    return res.json({ error: serverErrorMessage(e) })
+  }
+}
+
+async function handleSchedule(req: Req, res: Res) {
   const auth = await requireAdmin(req)
   if (auth.ok === false) {
     res.status(auth.status)

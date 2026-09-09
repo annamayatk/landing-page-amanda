@@ -2,6 +2,7 @@ import { and, desc, eq, isNull } from 'drizzle-orm'
 import type { IncomingMessage } from 'node:http'
 
 import { requireAdmin } from './lib/auth.js'
+import { serverErrorMessage } from './lib/errors.js'
 import { getQueryId, readJsonBody } from './lib/http.js'
 import { getDb } from '../src/db/index.js'
 import { scheduleRules, students } from '../src/db/schema.js'
@@ -52,6 +53,16 @@ function getStudentId(req: Req): string | undefined {
 }
 
 export default async function handler(req: Req, res: Res) {
+  try {
+    return await handleStudents(req, res)
+  } catch (e) {
+    console.error('[students]', e)
+    res.status(500)
+    return res.json({ error: serverErrorMessage(e) })
+  }
+}
+
+async function handleStudents(req: Req, res: Res) {
   const auth = await requireAdmin(req)
   if (auth.ok === false) {
     res.status(auth.status)

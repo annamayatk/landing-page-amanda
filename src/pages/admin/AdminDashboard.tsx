@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { readApiJson } from '../../lib/apiUtils'
 import {
   type ClassNoShowRow,
   type ScheduleExceptionRow,
@@ -70,14 +71,14 @@ export function AdminDashboard() {
 
   const refreshStudents = useCallback(async () => {
     const r = await fetch('/api/students', { credentials: 'include' })
-    const d = (await r.json()) as { students?: StudentRow[]; error?: string }
+    const d = (await readApiJson(r)) as { students?: StudentRow[]; error?: string }
     if (!r.ok) throw new Error(d.error ?? 'Erro ao listar alunos.')
     setStudents(d.students ?? [])
   }, [])
 
   const refreshSchedule = useCallback(async () => {
     const r = await fetch('/api/schedule', { credentials: 'include' })
-    const d = (await r.json()) as {
+    const d = (await readApiJson(r)) as {
       rules?: ScheduleRuleRow[]
       exceptions?: ScheduleExceptionRow[]
       noShows?: ClassNoShowRow[]
@@ -93,7 +94,7 @@ export function AdminDashboard() {
     const r = await fetch('/api/anamnese-submissions', {
       credentials: 'include',
     })
-    const d = (await r.json()) as {
+    const d = (await readApiJson(r)) as {
       submissions?: SubmissionRow[]
       error?: string
     }
@@ -106,7 +107,7 @@ export function AdminDashboard() {
     ;(async () => {
       try {
         const r = await fetch('/api/admin/me', { credentials: 'include' })
-        const d = (await r.json()) as { authenticated?: boolean }
+        const d = (await readApiJson(r)) as { authenticated?: boolean }
         if (cancelled) return
         if (!d.authenticated) {
           setAuth('out')
@@ -182,7 +183,7 @@ export function AdminDashboard() {
         nextDueDate: newDue || undefined,
       }),
     })
-    const d = (await r.json()) as { error?: string }
+    const d = (await readApiJson(r)) as { error?: string }
     if (!r.ok) {
       setError(d.error ?? 'Erro ao criar aluno.')
       return
@@ -214,7 +215,7 @@ export function AdminDashboard() {
         validFrom: schValidFrom,
       }),
     })
-    const d = (await r.json()) as { error?: string }
+    const d = (await readApiJson(r)) as { error?: string }
     if (!r.ok) {
       setError(d.error ?? 'Erro ao criar horário.')
       return
@@ -237,7 +238,7 @@ export function AdminDashboard() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ validUntil: until }),
     })
-    const d = (await r.json()) as { error?: string }
+    const d = (await readApiJson(r)) as { error?: string }
     if (!r.ok) {
       setError(d.error ?? 'Erro ao encerrar horário.')
       return
@@ -260,7 +261,7 @@ export function AdminDashboard() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: 'inactive' }),
     })
-    const d = (await r.json()) as { error?: string }
+    const d = (await readApiJson(r)) as { error?: string }
     if (!r.ok) {
       setError(d.error ?? 'Erro ao inativar.')
       return
@@ -277,7 +278,7 @@ export function AdminDashboard() {
       method: 'DELETE',
       credentials: 'include',
     })
-    const d = (await r.json()) as { error?: string }
+    const d = (await readApiJson(r)) as { error?: string }
     if (!r.ok) {
       setError(d.error ?? 'Erro ao excluir.')
       return
@@ -295,7 +296,7 @@ export function AdminDashboard() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ submissionId }),
     })
-    const d = (await r.json()) as { error?: string }
+    const d = (await readApiJson(r)) as { error?: string }
     if (!r.ok) {
       setError(d.error ?? 'Não foi possível cadastrar a partir da ficha.')
       return

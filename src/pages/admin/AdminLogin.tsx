@@ -1,6 +1,7 @@
 import { type FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { readApiJson } from '../../lib/apiUtils'
 import './admin.css'
 
 export function AdminLogin() {
@@ -19,7 +20,7 @@ export function AdminLogin() {
         credentials: 'include',
         body: JSON.stringify({ password }),
       })
-      const data = (await r.json()) as { error?: string }
+      const data = await readApiJson<{ error?: string }>(r)
       if (!r.ok) {
         setError(data.error ?? 'Falha no login.')
         return

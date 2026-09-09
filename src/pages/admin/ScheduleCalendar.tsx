@@ -5,6 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import type { EventClickArg } from '@fullcalendar/core'
 import ptBrLocale from '@fullcalendar/core/locales/pt-br'
 
+import { readApiJson } from '../../lib/apiUtils'
 import {
   type CalendarEvent,
   type ClassNoShowRow,
@@ -105,7 +106,7 @@ export function ScheduleCalendar({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     })
-    const d = (await r.json()) as { error?: string }
+    const d = await readApiJson<{ error?: string }>(r)
     if (!r.ok) {
       onError(d.error ?? 'Erro ao salvar exceção.')
       return false
@@ -155,7 +156,7 @@ export function ScheduleCalendar({
         classDate: selected.officialClassDate,
       }),
     })
-    const d = (await r.json()) as { error?: string; toggled?: boolean }
+    const d = await readApiJson<{ error?: string; toggled?: boolean }>(r)
     if (!r.ok) {
       onError(d.error ?? 'Erro ao marcar bolo.')
       return
