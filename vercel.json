@@ -15,6 +15,14 @@
       "destination": "/ficha-inicial.html"
     },
     {
+      "source": "/api/students/:id",
+      "destination": "/api/students?id=:id"
+    },
+    {
+      "source": "/api/schedule/:id",
+      "destination": "/api/schedule?id=:id"
+    },
+    {
       "source": "/((?!api/|src/|node_modules/|assets/|@).*)",
       "destination": "/index.html"
     }
