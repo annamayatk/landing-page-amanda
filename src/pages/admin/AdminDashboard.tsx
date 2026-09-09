@@ -2,10 +2,21 @@ import {
   type FormEvent,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import {
+  type ClassNoShowRow,
+  type ScheduleExceptionRow,
+  type ScheduleRuleRow,
+  WEEKDAYS,
+  computeBoloStats,
+  formatRuleSummary,
+  todayYmd,
+} from '../../lib/scheduleUtils'
+import { ScheduleCalendar } from './ScheduleCalendar'
 import './admin.css'
 
 type StudentRow = {
@@ -20,16 +31,6 @@ type StudentRow = {
   createdAt: string
 }
 
-type ScheduleRow = {
-  id: string
-  studentId: string
-  weekday: number
-  startTime: string
-  endTime: string
-  notes: string | null
-  studentNome: string
-}
-
 type SubmissionRow = {
   id: string
   payload: Record<string, unknown>
@@ -37,22 +38,16 @@ type SubmissionRow = {
   createdAt: string
 }
 
-const WEEKDAYS = [
-  'Domingo',
-  'Segunda',
-  'Terça',
-  'Quarta',
-  'Quinta',
-  'Sexta',
-  'Sábado',
-]
-
 export function AdminDashboard() {
   const navigate = useNavigate()
   const [auth, setAuth] = useState<'loading' | 'in' | 'out'>('loading')
-  const [tab, setTab] = useState<'students' | 'schedule' | 'fichas'>('students')
+  const [tab, setTab] = useState<
+    'students' | 'schedule' | 'fichas' | 'bolos'
+  >('students')
   const [students, setStudents] = useState<StudentRow[]>([])
-  const [rules, setRules] = useState<ScheduleRow[]>([])
+  const [rules, setRules] = useState<ScheduleRuleRow[]>([])
+  const [exceptions, setExceptions] = useState<ScheduleExceptionRow[]>([])
+  const [noShows, setNoShows] = useState<ClassNoShowRow[]>([])
   const [submissions, setSubmissions] = useState<SubmissionRow[]>([])
   const [error, setError] = useState<string | null>(null)
   const [msg, setMsg] = useState<string | null>(null)
@@ -71,6 +66,7 @@ export function AdminDashboard() {
   const [schStart, setSchStart] = useState('08:00')
   const [schEnd, setSchEnd] = useState('09:00')
   const [schNotes, setSchNotes] = useState('')
+  const [schValidFrom, setSchValidFrom] = useState(todayYmd())
 
   const refreshStudents = useCallback(async () => {
     const r = await fetch('/api/students', { credentials: 'include' })
@@ -81,9 +77,16 @@ export function AdminDashboard() {
 
   const refreshSchedule = useCallback(async () => {
     const r = await fetch('/api/schedule', { credentials: 'include' })
-    const d = (await r.json()) as { rules?: ScheduleRow[]; error?: string }
+    const d = (await r.json()) as {
+      rules?: ScheduleRuleRow[]
+      exceptions?: ScheduleExceptionRow[]
+      noShows?: ClassNoShowRow[]
+      error?: string
+    }
     if (!r.ok) throw new Error(d.error ?? 'Erro ao listar agenda.')
     setRules(d.rules ?? [])
+    setExceptions(d.exceptions ?? [])
+    setNoShows(d.noShows ?? [])
   }, [])
 
   const refreshSubmissions = useCallback(async () => {
@@ -125,6 +128,13 @@ export function AdminDashboard() {
       cancelled = true
     }
   }, [navigate, refreshStudents, refreshSchedule, refreshSubmissions])
+
+  const boloStats = useMemo(() => {
+    const statusMap = new Map(
+      students.map((s) => [s.id, { status: s.status }]),
+    )
+    return computeBoloStats(rules, exceptions, noShows, statusMap, 3)
+  }, [rules, exceptions, noShows, students])
 
   async function logout() {
     await fetch('/api/admin/logout', {
@@ -180,6 +190,7 @@ export function AdminDashboard() {
         startTime: schStart,
         endTime: schEnd,
         notes: schNotes || undefined,
+        validFrom: schValidFrom,
       }),
     })
     const d = (await r.json()) as { error?: string }
@@ -187,29 +198,59 @@ export function AdminDashboard() {
       setError(d.error ?? 'Erro ao criar horário.')
       return
     }
-    setMsg('Horário adicionado.')
+    setMsg('Horário oficial adicionado.')
     setSchNotes('')
     await refreshSchedule()
   }
 
-  async function deleteRule(id: string) {
-    if (!confirm('Remover este horário?')) return
+  async function endRule(id: string) {
+    const until = prompt(
+      'Encerrar horário a partir de qual data? (AAAA-MM-DD)',
+      todayYmd(),
+    )
+    if (!until) return
     setError(null)
     const r = await fetch(`/api/schedule/${id}`, {
-      method: 'DELETE',
+      method: 'PATCH',
       credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ validUntil: until }),
     })
     const d = (await r.json()) as { error?: string }
     if (!r.ok) {
-      setError(d.error ?? 'Erro ao remover.')
+      setError(d.error ?? 'Erro ao encerrar horário.')
       return
     }
+    setMsg('Horário encerrado — semanas anteriores continuam no calendário.')
+    await refreshSchedule()
+  }
+
+  async function inactivateStudent(id: string) {
+    if (
+      !confirm(
+        'Inativar aluno? Horários oficiais serão encerrados hoje (histórico permanece).',
+      )
+    )
+      return
+    setError(null)
+    const r = await fetch(`/api/students/${id}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'inactive' }),
+    })
+    const d = (await r.json()) as { error?: string }
+    if (!r.ok) {
+      setError(d.error ?? 'Erro ao inativar.')
+      return
+    }
+    setMsg('Aluno inativado.')
+    await refreshStudents()
     await refreshSchedule()
   }
 
   async function deleteStudent(id: string) {
-    if (!confirm('Excluir este aluno? Horários vinculados serão removidos.'))
-      return
+    if (!confirm('Excluir este aluno permanentemente?')) return
     setError(null)
     const r = await fetch(`/api/students/${id}`, {
       method: 'DELETE',
@@ -280,6 +321,13 @@ export function AdminDashboard() {
           onClick={() => setTab('schedule')}
         >
           Agenda
+        </button>
+        <button
+          type="button"
+          className={tab === 'bolos' ? 'active' : ''}
+          onClick={() => setTab('bolos')}
+        >
+          Bolos 🎂
         </button>
         <button
           type="button"
@@ -373,6 +421,14 @@ export function AdminDashboard() {
                       <td>{s.status}</td>
                       <td>{s.nextDueDate ?? '—'}</td>
                       <td>
+                        {s.status !== 'inactive' ? (
+                          <button
+                            type="button"
+                            onClick={() => void inactivateStudent(s.id)}
+                          >
+                            Inativar
+                          </button>
+                        ) : null}{' '}
                         <button
                           type="button"
                           className="danger"
@@ -396,7 +452,23 @@ export function AdminDashboard() {
       {tab === 'schedule' ? (
         <>
           <section className="admin-card">
-            <h2>Novo horário recorrente</h2>
+            <h2>Calendário semanal</h2>
+            <p className="muted">
+              Clique numa aula para desmarcar, remarcar ou marcar bolo 🎂.
+              Navegue entre semanas para ver histórico.
+            </p>
+            <ScheduleCalendar
+              rules={rules}
+              exceptions={exceptions}
+              noShows={noShows}
+              onRefresh={refreshSchedule}
+              onError={setError}
+              onMsg={setMsg}
+            />
+          </section>
+
+          <section className="admin-card">
+            <h2>Novo horário oficial (recorrente)</h2>
             <form className="admin-form-grid" onSubmit={addRule}>
               <label>
                 Aluno
@@ -445,7 +517,16 @@ export function AdminDashboard() {
                 />
               </label>
               <label>
-                Observações
+                Válido a partir de
+                <input
+                  type="date"
+                  value={schValidFrom}
+                  onChange={(e) => setSchValidFrom(e.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                Observações (horário oficial)
                 <textarea
                   value={schNotes}
                   onChange={(e) => setSchNotes(e.target.value)}
@@ -456,31 +537,31 @@ export function AdminDashboard() {
           </section>
 
           <section className="admin-card">
-            <h2>Horários</h2>
+            <h2>Horários oficiais</h2>
             <table>
               <thead>
                 <tr>
-                  <th>Aluno</th>
-                  <th>Dia</th>
-                  <th>Horário</th>
+                  <th>Resumo</th>
+                  <th>Válido de</th>
+                  <th>Até</th>
                   <th />
                 </tr>
               </thead>
               <tbody>
                 {rules.map((r) => (
                   <tr key={r.id}>
-                    <td>{r.studentNome}</td>
-                    <td>{WEEKDAYS[r.weekday] ?? r.weekday}</td>
+                    <td>{formatRuleSummary(r)}</td>
+                    <td>{r.validFrom}</td>
+                    <td>{r.validUntil ?? '—'}</td>
                     <td>
-                      {r.startTime} – {r.endTime}
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        onClick={() => void deleteRule(r.id)}
-                      >
-                        Remover
-                      </button>
+                      {!r.validUntil ? (
+                        <button
+                          type="button"
+                          onClick={() => void endRule(r.id)}
+                        >
+                          Encerrar
+                        </button>
+                      ) : null}
                     </td>
                   </tr>
                 ))}
@@ -491,6 +572,53 @@ export function AdminDashboard() {
             ) : null}
           </section>
         </>
+      ) : null}
+
+      {tab === 'bolos' ? (
+        <section className="admin-card">
+          <h2>Percentual de bolos 🎂</h2>
+          <p className="muted">
+            Falta sem aviso nas aulas já passadas (últimos 3 meses). Quem
+            desmarcou com antecedência não entra na conta.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Aluno</th>
+                <th>Status</th>
+                <th>Aulas</th>
+                <th>Bolos 🎂</th>
+                <th>% bolo</th>
+              </tr>
+            </thead>
+            <tbody>
+              {boloStats.map((b) => (
+                <tr key={b.studentId}>
+                  <td>{b.studentNome}</td>
+                  <td>{b.status}</td>
+                  <td>{b.totalClasses}</td>
+                  <td>{b.bolos}</td>
+                  <td>
+                    {b.totalClasses === 0 ? (
+                      '—'
+                    ) : (
+                      <span
+                        className={
+                          b.boloPct >= 20 ? 'bolo-pct-high' : undefined
+                        }
+                      >
+                        {b.boloPct}%
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {boloStats.length === 0 ? (
+            <p className="muted">Sem dados ainda — cadastre horários e aulas.</p>
+          ) : null}
+        </section>
       ) : null}
 
       {tab === 'fichas' ? (

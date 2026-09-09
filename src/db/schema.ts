@@ -6,6 +6,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
   smallint,
 } from 'drizzle-orm/pg-core'
@@ -14,6 +15,11 @@ export const studentStatusEnum = pgEnum('student_status', [
   'pending',
   'active',
   'inactive',
+])
+
+export const scheduleExceptionTypeEnum = pgEnum('schedule_exception_type', [
+  'cancelled',
+  'rescheduled',
 ])
 
 export const students = pgTable(
@@ -55,7 +61,7 @@ export const anamneseSubmissions = pgTable('anamnese_submissions', {
     .defaultNow(),
 })
 
-/** Horários recorrentes: weekday 0 = domingo … 6 = sábado (Date.getUTCDay) */
+/** Horários recorrentes: weekday 0 = domingo … 6 = sábado (Date.getDay) */
 export const scheduleRules = pgTable(
   'schedule_rules',
   {
@@ -67,6 +73,10 @@ export const scheduleRules = pgTable(
     startTime: text('start_time').notNull(), // "HH:MM"
     endTime: text('end_time').notNull(),
     notes: text('notes'),
+    /** Primeira semana em que a regra vale (inclusive) */
+    validFrom: date('valid_from', { mode: 'string' }).notNull(),
+    /** Última semana em que a regra vale (inclusive); null = ainda ativa */
+    validUntil: date('valid_until', { mode: 'string' }),
     createdAt: timestamp('created_at', { withTimezone: true })
       .notNull()
       .defaultNow(),
@@ -74,7 +84,59 @@ export const scheduleRules = pgTable(
   (t) => [index('schedule_rules_student_id_idx').on(t.studentId)],
 )
 
+/** Exceções pontuais: cancelamento ou remarque de uma aula específica */
+export const scheduleExceptions = pgTable(
+  'schedule_exceptions',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    ruleId: uuid('rule_id')
+      .notNull()
+      .references(() => scheduleRules.id, { onDelete: 'cascade' }),
+    originalDate: date('original_date', { mode: 'string' }).notNull(),
+    type: scheduleExceptionTypeEnum('type').notNull(),
+    newDate: date('new_date', { mode: 'string' }),
+    newStartTime: text('new_start_time'),
+    newEndTime: text('new_end_time'),
+    notes: text('notes'),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    uniqueIndex('schedule_exceptions_rule_date_idx').on(
+      t.ruleId,
+      t.originalDate,
+    ),
+  ],
+)
+
+/** Falta sem aviso (“bolo”) numa aula específica */
+export const classNoShows = pgTable(
+  'class_no_shows',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    ruleId: uuid('rule_id')
+      .notNull()
+      .references(() => scheduleRules.id, { onDelete: 'cascade' }),
+    classDate: date('class_date', { mode: 'string' }).notNull(),
+    studentId: uuid('student_id')
+      .notNull()
+      .references(() => students.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    uniqueIndex('class_no_shows_rule_date_idx').on(t.ruleId, t.classDate),
+    index('class_no_shows_student_id_idx').on(t.studentId),
+  ],
+)
+
 export type Student = typeof students.$inferSelect
 export type NewStudent = typeof students.$inferInsert
 export type ScheduleRule = typeof scheduleRules.$inferSelect
 export type NewScheduleRule = typeof scheduleRules.$inferInsert
+export type ScheduleException = typeof scheduleExceptions.$inferSelect
+export type NewScheduleException = typeof scheduleExceptions.$inferInsert
+export type ClassNoShow = typeof classNoShows.$inferSelect
+export type NewClassNoShow = typeof classNoShows.$inferInsert

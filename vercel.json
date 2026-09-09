@@ -19,6 +19,18 @@
       "destination": "/api/students?id=:id"
     },
     {
+      "source": "/api/schedule/exceptions/:id",
+      "destination": "/api/schedule?resource=exceptions&id=:id"
+    },
+    {
+      "source": "/api/schedule/exceptions",
+      "destination": "/api/schedule?resource=exceptions"
+    },
+    {
+      "source": "/api/schedule/no-shows",
+      "destination": "/api/schedule?resource=no-shows"
+    },
+    {
       "source": "/api/schedule/:id",
       "destination": "/api/schedule?id=:id"
     },

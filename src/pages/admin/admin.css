@@ -165,8 +165,19 @@
 }
 
 .admin-login h1 {
-  margin: 0 0 1rem;
+  margin: 0 0 0.35rem;
   font-size: 1.35rem;
+}
+
+.admin-login-lead {
+  margin: 0 0 1.25rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.admin-login-footer {
+  margin: 1.25rem 0 0;
+  font-size: 0.875rem;
 }
 
 .admin-loading {
@@ -194,4 +205,152 @@
 
 .admin-actions button:hover {
   border-color: #94a3b8;
+}
+
+/* Calendário semanal (FullCalendar) */
+.schedule-calendar-wrap {
+  --fc-border-color: #1e293b;
+  --fc-page-bg-color: #0f172a;
+  --fc-neutral-bg-color: #020617;
+  --fc-list-event-hover-bg-color: #1e293b;
+  --fc-today-bg-color: rgba(59, 130, 246, 0.12);
+}
+
+.schedule-calendar-wrap .fc {
+  color: #e2e8f0;
+  font-size: 0.85rem;
+}
+
+.schedule-calendar-wrap .fc-theme-standard td,
+.schedule-calendar-wrap .fc-theme-standard th {
+  border-color: #1e293b;
+}
+
+.schedule-calendar-wrap .fc-scrollgrid {
+  border-color: #1e293b;
+}
+
+.schedule-calendar-wrap .fc-timegrid-slot {
+  height: 2.5rem;
+}
+
+.schedule-calendar-wrap .fc-timegrid-axis-cushion,
+.schedule-calendar-wrap .fc-timegrid-slot-label-cushion {
+  color: #64748b;
+}
+
+.schedule-calendar-wrap .fc-col-header-cell-cushion,
+.schedule-calendar-wrap .fc-timegrid-slot-label-cushion {
+  color: #94a3b8;
+}
+
+.schedule-calendar-wrap .fc-event {
+  background: #1d4ed8;
+  border-color: #2563eb;
+  cursor: pointer;
+}
+
+.schedule-calendar-wrap .fc-event.fc-event-rescheduled {
+  background: #7c3aed;
+  border-color: #8b5cf6;
+}
+
+.schedule-calendar-wrap .fc-event.fc-event-bolo {
+  background: #92400e;
+  border-color: #d97706;
+  text-decoration: line-through;
+}
+
+.schedule-calendar-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.schedule-calendar-toolbar button {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.4rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.schedule-calendar-toolbar button:hover {
+  border-color: #94a3b8;
+}
+
+.schedule-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.schedule-modal {
+  max-width: 26rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 0;
+}
+
+.schedule-modal h2 {
+  margin: 0 0 0.5rem;
+}
+
+.schedule-modal h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.schedule-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.schedule-modal-actions button {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.4rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.schedule-modal-divider {
+  border: none;
+  border-top: 1px solid #1e293b;
+  margin: 1rem 0;
+}
+
+.schedule-modal-close {
+  margin-top: 1rem;
+  background: transparent;
+  border: 1px solid #475569;
+  color: #94a3b8;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.schedule-bolo-badge {
+  color: #fdba74;
+  font-weight: 600;
+}
+
+.bolo-pct-high {
+  color: #fdba74;
+  font-weight: 600;
 }

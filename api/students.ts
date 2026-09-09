@@ -1,10 +1,14 @@
-import { desc, eq } from 'drizzle-orm'
+import { and, desc, eq, isNull } from 'drizzle-orm'
 import type { IncomingMessage } from 'node:http'
 
 import { requireAdmin } from './lib/auth.js'
 import { getQueryId, readJsonBody } from './lib/http.js'
 import { getDb } from '../src/db/index.js'
-import { students } from '../src/db/schema.js'
+import { scheduleRules, students } from '../src/db/schema.js'
+
+function todayYmd(): string {
+  return new Date().toISOString().slice(0, 10)
+}
 
 type Res = {
   status: (code: number) => Res
@@ -183,6 +187,19 @@ export default async function handler(req: Req, res: Res) {
         res.status(404)
         return res.json({ error: 'Aluno não encontrado.' })
       }
+
+      if (patch.status === 'inactive') {
+        await db
+          .update(scheduleRules)
+          .set({ validUntil: todayYmd() })
+          .where(
+            and(
+              eq(scheduleRules.studentId, id),
+              isNull(scheduleRules.validUntil),
+            ),
+          )
+      }
+
       res.status(200)
       return res.json({ student: row })
     } catch (e: unknown) {
