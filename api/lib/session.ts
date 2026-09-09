@@ -55,13 +55,17 @@ export function getSessionCookieFromReq(
   return cookies[COOKIE] ?? null
 }
 
+function isSecureCookie(): boolean {
+  return process.env.VERCEL === '1' || process.env.NODE_ENV === 'production'
+}
+
 export function buildSetCookieHeader(token: string, maxAgeSec: number): string {
-  const secure = process.env.NODE_ENV === 'production' ? '; Secure' : ''
-  return `${COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAgeSec}${secure}`
+  const secure = isSecureCookie() ? '; Secure' : ''
+  return `${COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAgeSec}${secure}`
 }
 
 export function buildClearCookieHeader(): string {
-  const secure = process.env.NODE_ENV === 'production' ? '; Secure' : ''
+  const secure = isSecureCookie() ? '; Secure' : ''
   return `${COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${secure}`
 }
 

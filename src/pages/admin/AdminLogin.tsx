@@ -1,10 +1,9 @@
 import { type FormEvent, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import './admin.css'
 
 export function AdminLogin() {
-  const navigate = useNavigate()
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -25,7 +24,8 @@ export function AdminLogin() {
         setError(data.error ?? 'Falha no login.')
         return
       }
-      navigate('/admin', { replace: true })
+      // Recarrega a página para garantir que o cookie HttpOnly seja enviado.
+      window.location.assign('/admin')
     } catch {
       setError('Não foi possível conectar. Tente de novo em instantes.')
     } finally {

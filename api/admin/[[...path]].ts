@@ -52,19 +52,32 @@ export default async function handler(
       return res.json({ error: 'Senha inválida.' })
     }
 
-    const token = await createSessionToken()
+    let token: string
+    try {
+      token = await createSessionToken()
+    } catch {
+      res.status(500)
+      return res.json({
+        error:
+          'SESSION_SECRET não configurado na Vercel (mínimo 16 caracteres).',
+      })
+    }
+
+    res.setHeader('Cache-Control', 'no-store')
     res.setHeader('Set-Cookie', buildSetCookieHeader(token, 60 * 60 * 24 * 7))
     res.status(200)
     return res.json({ ok: true })
   }
 
   if (seg === 'logout' && req.method === 'POST') {
+    res.setHeader('Cache-Control', 'no-store')
     res.setHeader('Set-Cookie', buildClearCookieHeader())
     res.status(200)
     return res.json({ ok: true })
   }
 
   if (seg === 'me' && req.method === 'GET') {
+    res.setHeader('Cache-Control', 'no-store')
     const token = getSessionCookieFromReq(req)
     if (!token) {
       res.status(200)

@@ -114,9 +114,6 @@ export function AdminDashboard() {
           return
         }
         setAuth('in')
-        await refreshStudents()
-        await refreshSchedule()
-        await refreshSubmissions()
       } catch {
         if (!cancelled) {
           setAuth('out')
@@ -127,7 +124,31 @@ export function AdminDashboard() {
     return () => {
       cancelled = true
     }
-  }, [navigate, refreshStudents, refreshSchedule, refreshSubmissions])
+  }, [navigate])
+
+  useEffect(() => {
+    if (auth !== 'in') return
+    let cancelled = false
+    ;(async () => {
+      setError(null)
+      try {
+        await refreshStudents()
+        await refreshSchedule()
+        await refreshSubmissions()
+      } catch (e) {
+        if (!cancelled) {
+          setError(
+            e instanceof Error
+              ? e.message
+              : 'Erro ao carregar dados do painel.',
+          )
+        }
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [auth, refreshStudents, refreshSchedule, refreshSubmissions])
 
   const boloStats = useMemo(() => {
     const statusMap = new Map(
