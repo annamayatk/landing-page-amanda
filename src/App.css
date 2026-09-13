@@ -658,7 +658,82 @@ a.hero-tag-link:hover {
   gap: 1.8rem;
 }
 
+.plan-period-switch {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 1.4rem;
+}
+
+.plan-period-track {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.plan-period-btn {
+  position: relative;
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #d1d5db;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.plan-period-btn:hover {
+  background: rgba(249, 250, 251, 0.08);
+  color: #f9fafb;
+}
+
+.plan-period-btn.is-active {
+  background: #f9fafb;
+  color: #020617;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.plan-period-badge {
+  position: absolute;
+  top: -0.55rem;
+  right: -0.15rem;
+  padding: 0.08rem 0.4rem;
+  border-radius: 999px;
+  background: var(--color-logo-dark);
+  color: #020617;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.plan-period-btn.is-active .plan-period-badge {
+  background: #020617;
+  color: #f9fafb;
+}
+
+.plan-economia {
+  display: flex;
+  justify-content: center;
+  min-height: 1.35rem;
+  margin: -0.4rem 0 1.5rem;
+  text-align: center;
+  font-size: 0.88rem;
+  color: #d1d5db;
+}
+
 .plan-card {
+  display: flex;
+  flex-direction: column;
   background: rgba(15, 23, 42, 0.96);
   border-radius: 1.4rem;
   padding: 1.8rem 1.6rem 1.6rem;
@@ -695,6 +770,39 @@ a.hero-tag-link:hover {
   color: #d1d5db;
 }
 
+.plan-hero-price {
+  margin: 1.2rem 0 0.4rem;
+}
+
+.plan-hero-price-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.plan-hero-price-value {
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3vw, 2.15rem);
+  line-height: 1;
+}
+
+.plan-card-featured .plan-hero-price-value {
+  color: #f9fafb;
+}
+
+.plan-hero-price-period {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.plan-hero-price-sub {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
 .plan-features {
   margin: 1.2rem 0 1.6rem;
   padding-left: 1.1rem;
@@ -703,6 +811,7 @@ a.hero-tag-link:hover {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  flex: 1;
 }
 
 .plan-features li::marker {
@@ -726,6 +835,11 @@ a.hero-tag-link:hover {
   font-size: 0.8rem;
   line-height: 1.45;
   color: #9ca3af;
+}
+
+.plan-installments-shared {
+  margin: 1.2rem 0 0;
+  text-align: center;
 }
 
 .plan-prices > div {
@@ -1111,6 +1225,17 @@ a.hero-tag-link:hover {
 
   .plan-prices {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .plan-period-track {
+    width: 100%;
+    max-width: 26rem;
+  }
+
+  .plan-period-btn {
+    flex: 1;
+    padding: 0.55rem 0.6rem;
+    font-size: 0.8rem;
   }
 
   .cta-card {

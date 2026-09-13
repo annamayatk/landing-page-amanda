@@ -1,7 +1,45 @@
+import { useState } from 'react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 
+type Periodo = 'trimestral' | 'semestral' | 'anual'
+
+const PERIODS: { id: Periodo; label: string; badge?: string }[] = [
+  { id: 'trimestral', label: 'Trimestral' },
+  { id: 'semestral', label: 'Semestral' },
+  { id: 'anual', label: 'Anual', badge: 'Melhor' },
+]
+
+const PLANS = {
+  basico: {
+    name: 'Plano Básico',
+    prices: {
+      trimestral: { total: 'R$ 570,00', month: 'R$ 190/mês' },
+      semestral: { total: 'R$ 1080,00', month: 'R$ 180/mês' },
+      anual: { total: 'R$ 1700,00', month: 'R$ 141,67/mês' },
+    },
+  },
+  premium: {
+    name: 'Plano Premium',
+    prices: {
+      trimestral: { total: 'R$ 840,00', month: 'R$ 280/mês' },
+      semestral: { total: 'R$ 1500,00', month: 'R$ 250/mês' },
+      anual: { total: 'R$ 2500,00', month: 'R$ 208,33/mês' },
+    },
+  },
+} as const
+
+function whatsappHref(planName: string, periodLabel: string) {
+  const text = `Quero saber mais sobre o ${planName} ${periodLabel}`
+  return `https://wa.me/553284695345?text=${encodeURIComponent(text)}`
+}
+
 export function Consultoria() {
+  const [periodo, setPeriodo] = useState<Periodo>('anual')
+  const periodMeta = PERIODS.find((item) => item.id === periodo)!
+  const basico = PLANS.basico.prices[periodo]
+  const premium = PLANS.premium.prices[periodo]
+
   return (
     <div className="page">
       <Header />
@@ -13,9 +51,33 @@ export function Consultoria() {
             <p>
               Dois formatos para atender diferentes objetivos, mas com o mesmo
               foco: constância, segurança e resultado real. A consultoria começa
-              no trimestral e pode ser parcelada no cartão, com juros.
+              no trimestral.
             </p>
           </div>
+
+          <div className="plan-period-switch">
+            <div className="plan-period-track" role="tablist" aria-label="Período do plano">
+              {PERIODS.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={periodo === item.id}
+                  className={`plan-period-btn${periodo === item.id ? ' is-active' : ''}`}
+                  onClick={() => setPeriodo(item.id)}
+                >
+                  {item.label}
+                  {item.badge ? (
+                    <span className="plan-period-badge">{item.badge}</span>
+                  ) : null}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="plan-economia">
+            {periodo === 'anual' ? 'No anual, o Básico sai a R$ 141,67/mês' : '\u00a0'}
+          </p>
 
           <div className="plans-grid">
             <article className="plan-card">
@@ -24,6 +86,19 @@ export function Consultoria() {
                 Ideal para quem quer treinar com estratégia e segurança.
                 Somente treino.
               </p>
+
+              <div className="plan-hero-price">
+                <div className="plan-hero-price-row">
+                  <span className="plan-hero-price-value">
+                    {basico.total}
+                    <span className="price-asterisk">*</span>
+                  </span>
+                  <span className="plan-hero-price-period">
+                    /{periodMeta.label.toLowerCase()}
+                  </span>
+                </div>
+                <span className="plan-hero-price-sub">{basico.month}</span>
+              </div>
 
               <ul className="plan-features">
                 <li>Treino 100% individualizado.</li>
@@ -34,36 +109,8 @@ export function Consultoria() {
                 <li>Ajustes periódicos para evolução constante.</li>
               </ul>
 
-              <div className="plan-prices">
-                <div>
-                  <span className="price-label">Trimestral</span>
-                  <span className="price-value">
-                    R$ 570,00<span className="price-asterisk">*</span>
-                  </span>
-                  <span className="price-detail">R$ 190/mês</span>
-                </div>
-                <div>
-                  <span className="price-label">Semestral</span>
-                  <span className="price-value">
-                    R$ 1080,00<span className="price-asterisk">*</span>
-                  </span>
-                  <span className="price-detail">R$ 180/mês</span>
-                </div>
-                <div>
-                  <span className="price-label">Anual</span>
-                  <span className="price-value">
-                    R$ 1700,00<span className="price-asterisk">*</span>
-                  </span>
-                  <span className="price-detail">R$ 141,67/mês</span>
-                </div>
-              </div>
-              <p className="plan-installments">
-                * Parcelamento no cartão, com juros: trimestral em até 3x,
-                semestral em até 6x e anual em até 12x.
-              </p>
-
               <a
-                href="https://wa.me/553284695345?text=Quero%20saber%20mais%20sobre%20o%20Plano%20B%C3%A1sico"
+                href={whatsappHref(PLANS.basico.name, periodMeta.label)}
                 className="btn btn-outline btn-full"
                 target="_blank"
                 rel="noreferrer"
@@ -80,6 +127,19 @@ export function Consultoria() {
                 dieta.
               </p>
 
+              <div className="plan-hero-price">
+                <div className="plan-hero-price-row">
+                  <span className="plan-hero-price-value">
+                    {premium.total}
+                    <span className="price-asterisk">*</span>
+                  </span>
+                  <span className="plan-hero-price-period">
+                    /{periodMeta.label.toLowerCase()}
+                  </span>
+                </div>
+                <span className="plan-hero-price-sub">{premium.month}</span>
+              </div>
+
               <ul className="plan-features">
                 <li>Treino totalmente personalizado.</li>
                 <li>Dieta prescrita pelo nutricionista parceiro.</li>
@@ -89,36 +149,8 @@ export function Consultoria() {
                 </li>
               </ul>
 
-              <div className="plan-prices">
-                <div>
-                  <span className="price-label">Trimestral</span>
-                  <span className="price-value">
-                    R$ 840,00<span className="price-asterisk">*</span>
-                  </span>
-                  <span className="price-detail">R$ 280/mês</span>
-                </div>
-                <div>
-                  <span className="price-label">Semestral</span>
-                  <span className="price-value">
-                    R$ 1500,00<span className="price-asterisk">*</span>
-                  </span>
-                  <span className="price-detail">R$ 250/mês</span>
-                </div>
-                <div>
-                  <span className="price-label">Anual</span>
-                  <span className="price-value">
-                    R$ 2500,00<span className="price-asterisk">*</span>
-                  </span>
-                  <span className="price-detail">R$ 208,33/mês</span>
-                </div>
-              </div>
-              <p className="plan-installments">
-                * Parcelamento no cartão, com juros: trimestral em até 3x,
-                semestral em até 6x e anual em até 12x.
-              </p>
-
               <a
-                href="https://wa.me/553284695345?text=Quero%20saber%20mais%20sobre%20o%20Plano%20Premium"
+                href={whatsappHref(PLANS.premium.name, periodMeta.label)}
                 className="btn btn-primary btn-full"
                 target="_blank"
                 rel="noreferrer"
@@ -127,6 +159,11 @@ export function Consultoria() {
               </a>
             </article>
           </div>
+
+          <p className="plan-installments plan-installments-shared">
+            * Parcelamento no cartão, com juros: trimestral em até 3x,
+            semestral em até 6x e anual em até 12x.
+          </p>
         </section>
 
         <section className="section section-alt" id="como-funciona">
