@@ -717,6 +717,17 @@ a.hero-tag-link:hover {
   font-size: 0.85rem;
 }
 
+.plan-prices:has(+ .plan-installments) {
+  margin-bottom: 0.85rem;
+}
+
+.plan-installments {
+  margin: 0 0 1.4rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #9ca3af;
+}
+
 .plan-prices > div {
   padding: 0.85rem 0.85rem;
   border-radius: 1rem;
@@ -740,6 +751,13 @@ a.hero-tag-link:hover {
   display: block;
   font-weight: 600;
   font-size: 0.95rem;
+}
+
+.price-asterisk {
+  font-size: 0.7em;
+  font-weight: 600;
+  vertical-align: super;
+  color: #9ca3af;
 }
 
 .price-detail {

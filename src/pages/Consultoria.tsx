@@ -12,7 +12,8 @@ export function Consultoria() {
             <h2>Planos de consultoria</h2>
             <p>
               Dois formatos para atender diferentes objetivos, mas com o mesmo
-              foco: constância, segurança e resultado real.
+              foco: constância, segurança e resultado real. A consultoria começa
+              no trimestral e pode ser parcelada no cartão, com juros.
             </p>
           </div>
 
@@ -21,6 +22,7 @@ export function Consultoria() {
               <h3>Plano Básico</h3>
               <p className="plan-tagline">
                 Ideal para quem quer treinar com estratégia e segurança.
+                Somente treino.
               </p>
 
               <ul className="plan-features">
@@ -34,21 +36,31 @@ export function Consultoria() {
 
               <div className="plan-prices">
                 <div>
-                  <span className="price-label">Mensal</span>
-                  <span className="price-value">R$ 200,00</span>
-                  <span className="price-detail">somente treino</span>
-                </div>
-                <div>
                   <span className="price-label">Trimestral</span>
-                  <span className="price-value">R$ 570,00</span>
+                  <span className="price-value">
+                    R$ 570,00<span className="price-asterisk">*</span>
+                  </span>
                   <span className="price-detail">R$ 190/mês</span>
                 </div>
                 <div>
                   <span className="price-label">Semestral</span>
-                  <span className="price-value">R$ 1080,00</span>
+                  <span className="price-value">
+                    R$ 1080,00<span className="price-asterisk">*</span>
+                  </span>
                   <span className="price-detail">R$ 180/mês</span>
                 </div>
+                <div>
+                  <span className="price-label">Anual</span>
+                  <span className="price-value">
+                    R$ 1700,00<span className="price-asterisk">*</span>
+                  </span>
+                  <span className="price-detail">R$ 141,67/mês</span>
+                </div>
               </div>
+              <p className="plan-installments">
+                * Parcelamento no cartão, com juros: trimestral em até 3x,
+                semestral em até 6x e anual em até 12x.
+              </p>
 
               <a
                 href="https://wa.me/553284695345?text=Quero%20saber%20mais%20sobre%20o%20Plano%20B%C3%A1sico"
@@ -64,7 +76,8 @@ export function Consultoria() {
               <div className="plan-badge">Mais completo</div>
               <h3>Plano Premium</h3>
               <p className="plan-tagline">
-                Para quem busca resultados completos e otimizados.
+                Para quem busca resultados completos e otimizados. Treino +
+                dieta.
               </p>
 
               <ul className="plan-features">
@@ -78,21 +91,31 @@ export function Consultoria() {
 
               <div className="plan-prices">
                 <div>
-                  <span className="price-label">Mensal</span>
-                  <span className="price-value">R$ 300,00</span>
-                  <span className="price-detail">treino + dieta</span>
-                </div>
-                <div>
                   <span className="price-label">Trimestral</span>
-                  <span className="price-value">R$ 840,00</span>
+                  <span className="price-value">
+                    R$ 840,00<span className="price-asterisk">*</span>
+                  </span>
                   <span className="price-detail">R$ 280/mês</span>
                 </div>
                 <div>
                   <span className="price-label">Semestral</span>
-                  <span className="price-value">R$ 1620,00</span>
-                  <span className="price-detail">R$ 270/mês</span>
+                  <span className="price-value">
+                    R$ 1500,00<span className="price-asterisk">*</span>
+                  </span>
+                  <span className="price-detail">R$ 250/mês</span>
+                </div>
+                <div>
+                  <span className="price-label">Anual</span>
+                  <span className="price-value">
+                    R$ 2500,00<span className="price-asterisk">*</span>
+                  </span>
+                  <span className="price-detail">R$ 208,33/mês</span>
                 </div>
               </div>
+              <p className="plan-installments">
+                * Parcelamento no cartão, com juros: trimestral em até 3x,
+                semestral em até 6x e anual em até 12x.
+              </p>
 
               <a
                 href="https://wa.me/553284695345?text=Quero%20saber%20mais%20sobre%20o%20Plano%20Premium"
