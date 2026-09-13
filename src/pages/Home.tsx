@@ -52,17 +52,6 @@ export function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="hero-tags hero-tags--after-amanda">
-                  <Link to="/consultoria" className="hero-tag hero-tag-link">
-                    Consultoria personalizada
-                  </Link>
-                  <Link
-                    to="/atendimento-presencial"
-                    className="hero-tag hero-tag-link"
-                  >
-                    Atendimento presencial
-                  </Link>
-                </div>
                 <div className="partner-intro">
                   <div className="partner-photo-wrapper">
                     <img
@@ -79,6 +68,17 @@ export function Home() {
                       <span className="intro-registry">CRN4: 19100411</span>
                     </p>
                   </div>
+                </div>
+                <div className="hero-tags hero-tags--after-partner">
+                  <Link to="/consultoria" className="hero-tag hero-tag-link">
+                    Consultoria personalizada
+                  </Link>
+                  <Link
+                    to="/atendimento-presencial"
+                    className="hero-tag hero-tag-link"
+                  >
+                    Atendimento presencial
+                  </Link>
                 </div>
               </div>
             </div>

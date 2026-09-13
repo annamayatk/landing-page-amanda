@@ -268,7 +268,7 @@ h6,
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
   gap: 3rem;
-  padding: 5rem 5vw 4rem;
+  padding: 2rem 5vw 4rem;
   max-width: 1120px;
   margin: 0 auto;
 }
@@ -327,8 +327,7 @@ h6,
   align-items: center;
   gap: 0.65rem;
   margin-left: 1rem;
-  /* Espaço extra entre as tags e o bloco do João (além do gap do .amanda-intro) */
-  margin-top: 1.1rem;
+  margin-top: 0.4rem;
   opacity: 0.88;
   transition: opacity 160ms ease-out;
 }
@@ -446,13 +445,20 @@ a.hero-tag-link:hover {
 .hero-tags {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
 }
 
-/* Tags logo abaixo da linha foto + texto da Amanda, antes do João */
-.hero-tags--after-amanda {
+.hero-tags--after-partner {
   width: 100%;
+  margin-top: 1.15rem;
+}
+
+.hero-tags--after-partner .hero-tag {
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .hero h1 {
@@ -1167,7 +1173,7 @@ a.hero-tag-link:hover {
 
   .hero {
     grid-template-columns: minmax(0, 1fr);
-    padding-top: 4rem;
+    padding-top: 1.15rem;
   }
 
   .plans-grid {
@@ -1204,6 +1210,11 @@ a.hero-tag-link:hover {
   .amanda-photo-wrapper {
     width: 128px;
     height: 128px;
+  }
+
+  .hero-tags--after-partner .hero-tag {
+    font-size: 0.7rem;
+    padding: 0.18rem 0.4rem;
   }
 
   .partner-photo-wrapper {
