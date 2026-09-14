@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ScrollToHash } from './components/ScrollToHash'
+import { ScrollReveal } from './components/ScrollReveal'
 import { AdminDashboard } from './pages/admin/AdminDashboard'
 import { AdminLogin } from './pages/admin/AdminLogin'
 import { Consultoria } from './pages/Consultoria'
@@ -24,6 +25,7 @@ function App() {
           element={<Navigate to="/ficha-inicial" replace />}
         />
       </Routes>
+      <ScrollReveal />
     </BrowserRouter>
   )
 }

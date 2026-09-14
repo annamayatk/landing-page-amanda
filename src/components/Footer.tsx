@@ -2,8 +2,7 @@ export function Footer() {
   return (
     <footer className="footer">
       <p>
-        Personal: <strong>Amanda Atkinson</strong> CREF: 065517-G/RJ · Nutricionista
-        parceiro: <strong>João Vitor Torres</strong> CRN4: 19100411
+        CREF: 065517-G/RJ · CRN4: 19100411
       </p>
       <p className="footer-small">
         <span className="footer-ig-icon" aria-hidden="true" />{' '}

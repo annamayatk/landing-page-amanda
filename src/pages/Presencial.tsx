@@ -8,7 +8,7 @@ export function Presencial() {
 
       <main>
         <section className="section" id="planos">
-          <div className="section-header" id="planos-personal">
+          <div className="section-header scroll-reveal" id="planos-personal">
             <h2>Planos de personal</h2>
             <p>
               Treinamento com acompanhamento presencial, com orientação
@@ -17,7 +17,7 @@ export function Presencial() {
           </div>
 
           <div className="plans-grid">
-            <article className="plan-card">
+            <article className="plan-card scroll-reveal">
               <h3>Atendimento Presencial - Individual</h3>
               <p className="plan-tagline">
                 Somente em ITAIPAVA (Petrópolis - RJ).
@@ -60,7 +60,7 @@ export function Presencial() {
               </a>
             </article>
 
-            <article className="plan-card plan-card-featured">
+            <article className="plan-card plan-card-featured scroll-reveal">
               <div className="plan-badge">Melhor preço</div>
               <h3>Atendimento Presencial - Dupla</h3>
               <p className="plan-tagline">

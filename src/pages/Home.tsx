@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import amandaPhoto from '../assets/amanda.jpeg'
 import amandaTreinoPhoto from '../assets/amanda-treino.jpg'
@@ -11,8 +11,46 @@ import resultado4 from '../assets/resultado4.png'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 
+function useScrollFade<T extends HTMLElement>() {
+  const ref = useRef<T>(null)
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    let ticking = false
+
+    const update = () => {
+      ticking = false
+      const rect = el.getBoundingClientRect()
+      const vh = window.innerHeight || 1
+      const start = vh
+      const end = vh * 0.18
+      const reveal = Math.min(1, Math.max(0, (start - rect.top) / (start - end)))
+      el.style.setProperty('--scroll-fade', (1 - reveal).toFixed(3))
+    }
+
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [])
+
+  return ref
+}
+
 export function Home() {
   const [planosModalOpen, setPlanosModalOpen] = useState(false)
+  const aboutSplitRef = useScrollFade<HTMLElement>()
 
   useEffect(() => {
     if (!planosModalOpen) return
@@ -41,7 +79,7 @@ export function Home() {
                 alt="Amanda Atkinson corrigindo a execução de uma puxada alta com aluna na academia"
               />
             </div>
-            <div className="hero-content">
+            <div className="hero-content scroll-reveal">
               <h1>
                 Treino e nutrição pensados
                 <span> para a sua rotina.</span>
@@ -73,25 +111,10 @@ export function Home() {
                   Tirar dúvidas no WhatsApp
                 </a>
               </div>
-
-              <div className="hero-highlights">
-                <div>
-                  <span className="highlight-number">100%</span>
-                  <span className="highlight-label">Treino individualizado</span>
-                </div>
-                <div>
-                  <span className="highlight-number">2</span>
-                  <span className="highlight-label">Planos sob medida</span>
-                </div>
-                <div>
-                  <span className="highlight-number">+ Constância</span>
-                  <span className="highlight-label">+ Resultados reais</span>
-                </div>
-              </div>
             </div>
           </div>
 
-          <div className="hero-team-band">
+          <div className="hero-team-band scroll-reveal">
             <div className="hero-team-intro">
               <div className="amanda-intro">
                 <div className="amanda-intro-top">
@@ -128,23 +151,12 @@ export function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="hero-tags hero-tags--after-partner">
-                  <Link to="/consultoria" className="hero-tag hero-tag-link">
-                    Consultoria personalizada
-                  </Link>
-                  <Link
-                    to="/atendimento-presencial"
-                    className="hero-tag hero-tag-link"
-                  >
-                    Atendimento presencial
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
 
           <div className="hero-cards">
-            <div className="hero-card">
+            <div className="hero-card scroll-reveal">
               <div className="hero-badge">Vagas limitadas</div>
               <h2>Consultoria Personalizada</h2>
               <p>
@@ -163,7 +175,7 @@ export function Home() {
               </Link>
             </div>
 
-            <div className="hero-card">
+            <div className="hero-card scroll-reveal">
               <div className="hero-badge">Atendimento presencial</div>
               <h2>Treino com orientação individual</h2>
               <p>
@@ -185,16 +197,16 @@ export function Home() {
         </section>
 
         <section className="section" id="resultados">
-          <div className="section-header">
-            <h2>O método funciona. E os resultados provam.</h2>
+          <div className="section-header scroll-reveal">
+            <h2>Resultados</h2>
             <p>
-              Não é mágica. É treino estruturado, acompanhamento individual e,
+              Não é mágica, é treino estruturado, acompanhamento individual e,
               no Plano Premium, nutrição alinhada ao objetivo.
             </p>
           </div>
 
           <div className="results-grid">
-            <article className="result-card">
+            <article className="result-card scroll-reveal">
               <div className="result-labels">
                 <span className="badge badge-before">antes</span>
                 <span className="badge badge-after">depois</span>
@@ -210,7 +222,7 @@ export function Home() {
               </p>
             </article>
 
-            <article className="result-card">
+            <article className="result-card scroll-reveal">
               <div className="result-labels">
                 <span className="badge badge-before">antes</span>
                 <span className="badge badge-after">depois</span>
@@ -226,7 +238,7 @@ export function Home() {
               </p>
             </article>
 
-            <article className="result-card">
+            <article className="result-card scroll-reveal">
               <div className="result-labels">
                 <span className="badge badge-before">antes</span>
                 <span className="badge badge-after">depois</span>
@@ -242,7 +254,7 @@ export function Home() {
               </p>
             </article>
 
-            <article className="result-card">
+            <article className="result-card scroll-reveal">
               <div className="result-labels">
                 <span className="badge badge-before">antes</span>
                 <span className="badge badge-after">depois</span>
@@ -260,7 +272,12 @@ export function Home() {
           </div>
         </section>
 
-        <section className="about-split" id="amanda" aria-labelledby="about-amanda-title">
+        <section
+          className="about-split scroll-reveal"
+          id="amanda"
+          aria-labelledby="about-amanda-title"
+          ref={aboutSplitRef}
+        >
           <div className="about-split-photo">
             <img
               src={amandaTreinoPhoto}
@@ -289,18 +306,11 @@ export function Home() {
             <p className="about-split-highlight">
               O resultado são alunas e alunos que finalmente evoluem, e mantém resultados duradouros.
             </p>
-            <button
-              type="button"
-              className="btn btn-primary about-split-cta"
-              onClick={() => setPlanosModalOpen(true)}
-            >
-              Quero evoluir de verdade
-            </button>
           </div>
         </section>
 
         <section className="section section-cta" id="contato">
-          <div className="cta-card">
+          <div className="cta-card scroll-reveal">
             <h2>Pronta para começar?</h2>
             <p>
               Envie uma mensagem e vamos entender juntos qual plano faz mais

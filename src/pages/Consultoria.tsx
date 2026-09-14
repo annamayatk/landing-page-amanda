@@ -46,7 +46,7 @@ export function Consultoria() {
 
       <main>
         <section className="section" id="planos">
-          <div className="section-header">
+          <div className="section-header scroll-reveal">
             <h2>Planos de consultoria</h2>
             <p>
               Dois formatos para atender diferentes objetivos, mas com o mesmo
@@ -80,7 +80,7 @@ export function Consultoria() {
           </p>
 
           <div className="plans-grid">
-            <article className="plan-card">
+            <article className="plan-card scroll-reveal">
               <h3>Plano Básico</h3>
               <p className="plan-tagline">
                 Ideal para quem quer treinar com estratégia e segurança.
@@ -119,7 +119,7 @@ export function Consultoria() {
               </a>
             </article>
 
-            <article className="plan-card plan-card-featured">
+            <article className="plan-card plan-card-featured scroll-reveal">
               <div className="plan-badge">Mais completo</div>
               <h3>Plano Premium</h3>
               <p className="plan-tagline">
@@ -167,7 +167,7 @@ export function Consultoria() {
         </section>
 
         <section className="section section-alt" id="como-funciona">
-          <div className="section-header">
+          <div className="section-header scroll-reveal">
             <h2>Como funciona a consultoria</h2>
             <p>
               Do primeiro contato ao ajuste fino do seu plano, você é acompanhado
@@ -176,7 +176,7 @@ export function Consultoria() {
           </div>
 
           <div className="steps-grid">
-            <div className="step">
+            <div className="step scroll-reveal">
               <span className="step-number">1</span>
               <h3>Questionário inicial</h3>
               <p>
@@ -184,7 +184,7 @@ export function Consultoria() {
                 objetivos. Assim, o planejamento já nasce realista.
               </p>
             </div>
-            <div className="step">
+            <div className="step scroll-reveal">
               <span className="step-number">2</span>
               <h3>Montagem do plano</h3>
               <p>
@@ -192,7 +192,7 @@ export function Consultoria() {
                 João Vitor estrutura sua dieta alinhada ao objetivo.
               </p>
             </div>
-            <div className="step">
+            <div className="step scroll-reveal">
               <span className="step-number">3</span>
               <h3>Acompanhamento e ajustes</h3>
               <p>
