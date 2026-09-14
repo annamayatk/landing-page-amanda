@@ -8,6 +8,7 @@ const drawerLinks = [
   { to: '/consultoria', label: 'Consultoria' },
   { to: '/atendimento-presencial', label: 'Personal' },
   { to: '/#resultados', label: 'Resultados' },
+  { to: '/#amanda', label: 'Amanda' },
   { to: '/#contato', label: 'Contato' },
 ] as const
 
@@ -123,6 +124,7 @@ export function Header() {
           <Link to="/consultoria">Consultoria</Link>
           <Link to="/atendimento-presencial">Personal</Link>
           <Link to="/#resultados">Resultados</Link>
+          <Link to="/#amanda">Amanda</Link>
           <Link to="/#contato">Contato</Link>
         </nav>
 

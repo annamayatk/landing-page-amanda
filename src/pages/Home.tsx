@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import amandaPhoto from '../assets/amanda.jpeg'
+import amandaTreinoPhoto from '../assets/amanda-treino.jpg'
+import amandaTreinoPuxadaPhoto from '../assets/amanda-treino-puxada.jpg'
 import joaoVitorPhoto from '../assets/joao-vitor-torres.png'
 import resultado1 from '../assets/resultado1.jpeg'
 import resultado2 from '../assets/resultado2.jpeg'
@@ -32,7 +34,64 @@ export function Home() {
 
       <main>
         <section className="hero" id="inicio">
-          <div className="hero-content">
+          <div className="hero-cinematic">
+            <div className="hero-cinematic-photo">
+              <img
+                src={amandaTreinoPuxadaPhoto}
+                alt="Amanda Atkinson corrigindo a execução de uma puxada alta com aluna na academia"
+              />
+            </div>
+            <div className="hero-content">
+              <h1>
+                Treino e nutrição pensados
+                <span> para a sua rotina.</span>
+              </h1>
+              <p className="hero-subtitle">
+                Cada aluno que chega até mim tem uma história diferente, e o
+                treino precisa refletir isso. Por isso, nada aqui é padronizado:
+                cada planejamento é construído do zero, pensando nos seus
+                objetivos, na sua rotina e no seu corpo. Quem opta pelo plano
+                Premium conta ainda com um trabalho integrado ao nutricionista
+                João Vitor Torres, para que treino e alimentação caminhem na
+                mesma direção.
+              </p>
+
+              <div className="hero-actions">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setPlanosModalOpen(true)}
+                >
+                  Conhecer os planos
+                </button>
+                <a
+                  href="https://wa.me/553284695345"
+                  className="btn btn-ghost"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Tirar dúvidas no WhatsApp
+                </a>
+              </div>
+
+              <div className="hero-highlights">
+                <div>
+                  <span className="highlight-number">100%</span>
+                  <span className="highlight-label">Treino individualizado</span>
+                </div>
+                <div>
+                  <span className="highlight-number">2</span>
+                  <span className="highlight-label">Planos sob medida</span>
+                </div>
+                <div>
+                  <span className="highlight-number">+ Constância</span>
+                  <span className="highlight-label">+ Resultados reais</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="hero-team-band">
             <div className="hero-team-intro">
               <div className="amanda-intro">
                 <div className="amanda-intro-top">
@@ -80,46 +139,6 @@ export function Home() {
                     Atendimento presencial
                   </Link>
                 </div>
-              </div>
-            </div>
-            <h1>
-              Treino e nutrição pensados
-              <span> para a sua rotina.</span>
-            </h1>
-            <p className="hero-subtitle">
-              Cada aluno que chega até mim tem uma história diferente, e o treino precisa refletir isso. Por isso, nada aqui é padronizado: cada planejamento é construído do zero, pensando nos seus objetivos, na sua rotina e no seu corpo. Quem opta pelo plano Premium conta ainda com um trabalho integrado ao nutricionista João Vitor Torres, para que treino e alimentação caminhem na mesma direção.
-            </p>
-
-            <div className="hero-actions">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => setPlanosModalOpen(true)}
-              >
-                Conhecer os planos
-              </button>
-              <a
-                href="https://wa.me/553284695345"
-                className="btn btn-ghost"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Tirar dúvidas no WhatsApp
-              </a>
-            </div>
-
-            <div className="hero-highlights">
-              <div>
-                <span className="highlight-number">100%</span>
-                <span className="highlight-label">Treino individualizado</span>
-              </div>
-              <div>
-                <span className="highlight-number">2</span>
-                <span className="highlight-label">Planos sob medida</span>
-              </div>
-              <div>
-                <span className="highlight-number">+ Constância</span>
-                <span className="highlight-label">+ Resultados reais</span>
               </div>
             </div>
           </div>
@@ -238,6 +257,45 @@ export function Home() {
                 confiança - do ambiente de casa para a rotina na academia.
               </p>
             </article>
+          </div>
+        </section>
+
+        <section className="about-split" id="amanda" aria-labelledby="about-amanda-title">
+          <div className="about-split-photo">
+            <img
+              src={amandaTreinoPhoto}
+              alt="Amanda Atkinson corrigindo um desenvolvimento de ombros com aluna na academia"
+            />
+          </div>
+          <div className="about-split-content">
+            <h2 id="about-amanda-title">Quem é Amanda Atkinson?</h2>
+            <p>
+              Amanda é personal trainer (CREF 065517-G/RJ). Quando você entra na
+              consultoria, o acompanhamento é 100% individual. O treino é pensado do
+              zero para o seu objetivo, a sua rotina e o seu corpo.
+            </p>
+            <p>
+              Enquanto muita consultoria online entrega uma planilha pronta e
+              some, eu construo cada planejamento do zero, levando em conta
+              seu histórico e fico ao seu lado ao longo de todo o processo. No
+              Plano Premium, o trabalho é integrado ao nutricionista João Vitor
+              Torres.
+            </p>
+            <p>
+              A metodologia une treino estruturado com acompanhamento de perto.
+              Sem radicalismo e planilha genérica, sem treino igual para todo
+              mundo.
+            </p>
+            <p className="about-split-highlight">
+              O resultado são alunas e alunos que finalmente evoluem, e mantém resultados duradouros.
+            </p>
+            <button
+              type="button"
+              className="btn btn-primary about-split-cta"
+              onClick={() => setPlanosModalOpen(true)}
+            >
+              Quero evoluir de verdade
+            </button>
           </div>
         </section>
 
