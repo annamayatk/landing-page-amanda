@@ -22,31 +22,31 @@ const FREQUENCIES: { id: Frequencia; label: string; suffix: string; hint: string
       id: '1x',
       label: '1x por semana',
       suffix: '/mês',
-      hint: '1 aula por semana',
+      hint: '1 horário fixo semanal',
     },
     {
       id: '2x',
       label: '2x por semana',
       suffix: '/mês',
-      hint: '2 aulas por semana',
+      hint: '2 horários fixos semanais',
     },
     {
       id: '3x',
       label: '3x por semana',
       suffix: '/mês',
-      hint: '3 aulas por semana',
+      hint: '3 horários fixos semanais',
     },
     {
       id: '4x',
       label: '4x por semana',
       suffix: '/mês',
-      hint: '4 aulas por semana',
+      hint: '4 horários fixos semanais',
     },
     {
       id: '5x',
       label: '5x por semana',
       suffix: '/mês',
-      hint: '5 aulas por semana',
+      hint: '5 horários fixos semanais',
     },
   ]
 
@@ -137,7 +137,7 @@ export function Presencial() {
                 <span className="plan-hero-price-sub">
                   {frequencia === 'avulsa'
                     ? 'Uma aula, quando você quiser'
-                    : 'Valor mensal'}
+                    : freqMeta.hint}
                 </span>
               </div>
 
@@ -147,7 +147,7 @@ export function Presencial() {
               </ul>
 
               <a
-                href={whatsappHref(PLANS.individual.name, freqMeta.hint)}
+                href={whatsappHref(PLANS.individual.name, freqMeta.label)}
                 className="btn btn-outline btn-full"
                 target="_blank"
                 rel="noreferrer"
@@ -172,7 +172,7 @@ export function Presencial() {
                 <span className="plan-hero-price-sub">
                   {frequencia === 'avulsa'
                     ? 'Uma aula para a dupla'
-                    : 'Valor mensal'}
+                    : freqMeta.hint}
                 </span>
               </div>
 
@@ -183,7 +183,7 @@ export function Presencial() {
               </ul>
 
               <a
-                href={whatsappHref(PLANS.dupla.name, freqMeta.hint)}
+                href={whatsappHref(PLANS.dupla.name, freqMeta.label)}
                 className="btn btn-primary btn-full"
                 target="_blank"
                 rel="noreferrer"
