@@ -718,6 +718,18 @@ h6,
   border: 1px solid rgba(148, 163, 184, 0.28);
 }
 
+.plan-period-track--compact {
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 56rem;
+  border-radius: 1.15rem;
+}
+
+.plan-period-track--compact .plan-period-btn {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.84rem;
+}
+
 .plan-period-btn {
   position: relative;
   appearance: none;
@@ -1440,10 +1452,20 @@ h6,
     max-width: 26rem;
   }
 
+  .plan-period-track--compact {
+    max-width: none;
+  }
+
   .plan-period-btn {
     flex: 1;
     padding: 0.55rem 0.6rem;
     font-size: 0.8rem;
+  }
+
+  .plan-period-track--compact .plan-period-btn {
+    flex: 1 1 calc(33.33% - 0.25rem);
+    padding: 0.5rem 0.45rem;
+    font-size: 0.78rem;
   }
 
   .cta-card {
