@@ -114,6 +114,8 @@ export function Home() {
             </div>
           </div>
 
+          <div className="hero-section-fade" aria-hidden="true" />
+
           <div className="hero-team-band scroll-reveal">
             <div className="hero-team-intro">
               <div className="amanda-intro">

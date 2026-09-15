@@ -97,7 +97,7 @@ export function Presencial() {
             <p>
               Treinamento com acompanhamento presencial, com orientação
               individual durante toda a execução dos exercícios. Escolha a
-              frequência e o formato: sozinha(o) ou em dupla.
+              frequência e o formato: sozinha ou em dupla.
             </p>
           </div>
 

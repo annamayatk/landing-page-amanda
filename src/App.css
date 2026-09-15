@@ -381,9 +381,25 @@ h6,
   background: #000;
 }
 
+.hero-section-fade {
+  width: 100%;
+  height: 7.5rem;
+  margin-top: -1px;
+  background: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgba(0, 0, 0, 0.72) 28%,
+    rgba(2, 6, 23, 0.45) 62%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
 .hero-team-band {
+  position: relative;
+  z-index: 1;
   width: min(1120px, calc(100% - 10vw));
-  margin: 2.25rem auto 0;
+  margin: -2.4rem auto 0;
 }
 
 .hero-team-intro {
@@ -1345,9 +1361,13 @@ h6,
     background: transparent;
   }
 
+  .hero-section-fade {
+    height: 6.25rem;
+  }
+
   .hero-team-band {
     width: calc(100% - 3rem);
-    margin: 1.75rem auto 0;
+    margin: -1.5rem auto 0;
   }
 
   .hero-cards {

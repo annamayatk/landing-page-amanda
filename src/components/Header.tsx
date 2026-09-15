@@ -5,10 +5,10 @@ import logoAmanda from '../assets/logo-amanda.png'
 
 const drawerLinks = [
   { to: '/', label: 'Início' },
-  { to: '/consultoria', label: 'Consultoria' },
+  { to: '/consultoria', label: 'Consultoria online' },
   { to: '/atendimento-presencial', label: 'Personal' },
   { to: '/#resultados', label: 'Resultados' },
-  { to: '/#amanda', label: 'Amanda' },
+  { to: '/#amanda', label: 'Quem é Amanda Atkinson?' },
   { to: '/#contato', label: 'Contato' },
 ] as const
 
@@ -121,10 +121,10 @@ export function Header() {
         </Link>
 
         <nav className="nav" aria-label="Principal">
-          <Link to="/consultoria">Consultoria</Link>
+          <Link to="/consultoria">Consultoria online</Link>
           <Link to="/atendimento-presencial">Personal</Link>
           <Link to="/#resultados">Resultados</Link>
-          <Link to="/#amanda">Amanda</Link>
+          <Link to="/#amanda">Quem é Amanda Atkinson?</Link>
           <Link to="/#contato">Contato</Link>
         </nav>
 
