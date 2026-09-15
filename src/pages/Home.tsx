@@ -76,7 +76,7 @@ export function Home() {
             <div className="hero-cinematic-photo">
               <img
                 src={amandaTreinoPuxadaPhoto}
-                alt="Amanda Atkinson corrigindo a execução de uma puxada alta com aluna na academia"
+                alt="Amanda Atkinson acompanhando aluna durante o treino na academia"
               />
             </div>
             <div className="hero-content scroll-reveal">

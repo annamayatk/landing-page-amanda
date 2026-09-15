@@ -315,30 +315,48 @@ h6,
   display: grid;
   grid-template-columns: minmax(280px, 1.08fr) minmax(300px, 0.92fr);
   align-items: stretch;
-  min-height: min(82vh, 740px);
+  gap: 0;
   background: #000;
   overflow: hidden;
 }
 
 .hero-cinematic-photo {
   position: relative;
-  min-height: min(82vh, 740px);
+  background: #000;
+  overflow: hidden;
+  line-height: 0;
+  font-size: 0;
 }
 
 .hero-cinematic-photo img {
-  position: absolute;
-  inset: 0;
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 48% 16%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  object-fit: contain;
+  object-position: center;
+  clip-path: inset(0 0 2px 0);
+}
+
+.hero-cinematic-photo::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  z-index: 2;
+  background: #000;
+  pointer-events: none;
 }
 
 .hero-cinematic-photo::after {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
     linear-gradient(
       to right,
@@ -346,7 +364,7 @@ h6,
       rgba(0, 0, 0, 0.45) 66%,
       #000 100%
     ),
-    linear-gradient(to top, rgba(0, 0, 0, 0.28) 0%, transparent 32%);
+    linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.75) 14%, transparent 38%);
   pointer-events: none;
 }
 
@@ -360,6 +378,7 @@ h6,
   justify-content: center;
   gap: 1.2rem;
   padding: 3rem 5vw 3rem 1.25rem;
+  background: #000;
 }
 
 .hero-team-band {
@@ -1293,21 +1312,23 @@ h6,
   }
 
   .hero-cinematic-photo {
-    min-height: 360px;
-    max-height: 56vh;
+    min-height: 0;
+    max-height: none;
   }
 
   .hero-cinematic-photo::after {
-    background: linear-gradient(
-      to bottom,
-      transparent 42%,
-      rgba(0, 0, 0, 0.55) 78%,
-      #000 100%
-    );
+    background:
+      linear-gradient(
+        to bottom,
+        transparent 42%,
+        rgba(0, 0, 0, 0.55) 78%,
+        #000 100%
+      );
   }
 
   .hero-content {
     padding: 1.4rem 1.5rem 2.25rem;
+    margin-top: -3px;
   }
 
   .hero-team-band {
