@@ -1188,12 +1188,61 @@ h6,
 }
 
 .footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
   padding: 1.8rem 5vw 2.2rem;
   border-top: 1px solid rgba(15, 23, 42, 1);
   background: radial-gradient(circle at top, #020617, #000000);
   text-align: center;
   font-size: 0.85rem;
   color: #9ca3af;
+}
+
+.footer-copy {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.amw-selo {
+  display: inline-flex;
+  grid-column: 3;
+  justify-self: end;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 4px;
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.amw-selo:hover,
+.amw-selo:focus-visible {
+  opacity: 1;
+}
+
+.amw-nome {
+  font: 15px/1 'Marcellus', Georgia, serif;
+}
+
+.amw-tag {
+  font: 9px/1 ui-monospace, Menlo, monospace;
+  letter-spacing: 0.3em;
+}
+
+@media (max-width: 640px) {
+  .footer {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-copy,
+  .amw-selo {
+    grid-column: 1;
+    justify-self: center;
+  }
 }
 
 .footer-small {
